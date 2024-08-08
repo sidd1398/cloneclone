@@ -75,6 +75,10 @@ st.title("가상 크로스")
 left = st.text_input("왼쪽 우파루:")
 right = st.text_input("오른쪽 우파루:")
 
+f = open('streamlit.csv', 'r')
+data = csv.reader(f)
+
 if st.button("Submit"):
-    
+    st.write(data[0])
+    st.write(data[1])
 
