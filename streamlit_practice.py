@@ -39,7 +39,7 @@ if st.button("Submit"):
         df.index = df.index + 1
         print(df)
 '''
-print(' ')
+print(" ", end='')
 
 
 # In[2]:
@@ -53,6 +53,7 @@ writer = csv.writer(f)
 writer.writerows(data)
 f.close()
 '''
+print(" ", end='')
 
 
 # In[3]:
@@ -65,6 +66,7 @@ for line in data:
     print(line)
 f.close()
 '''
+print(" ", end='')
 
 
 # In[ ]:
@@ -82,6 +84,6 @@ f = open('streamlit.csv', 'r')
 data = csv.reader(f)
 
 if st.button("Submit"):
-    st.write(data[0])
-    st.write(data[1])
+    st.write(data)
+#    st.write(data[1])
 
