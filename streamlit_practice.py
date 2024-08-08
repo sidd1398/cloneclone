@@ -71,6 +71,7 @@ f.close()
 
 
 import streamlit as st
+import csv
 
 st.title("가상 크로스")
 
