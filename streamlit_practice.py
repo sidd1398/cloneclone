@@ -70,6 +70,8 @@ f.close()
 # In[ ]:
 
 
+import streamlit as st
+
 st.title("가상 크로스")
 
 left = st.text_input("왼쪽 우파루:")
