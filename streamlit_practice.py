@@ -69,21 +69,26 @@ f.close()
 print(" ", end='')
 
 
-# In[ ]:
+# In[1]:
 
 
 import streamlit as st
-import csv
+import pandas as pd
 
 st.title("가상 크로스")
 
 left = st.text_input("왼쪽 우파루:")
 right = st.text_input("오른쪽 우파루:")
 
-f = open('streamlit.csv', 'r')
-data = csv.reader(f)
+# pandas를 사용해 csv 파일 읽기
+df = pd.read_csv('streamlit.csv')
 
-if st.button("Submit"):
-    st.write(data)
-#    st.write(data[1])
+if st.button("크로스"):
+    st.write(df)  # DataFrame 전체를 출력
+
+
+# In[ ]:
+
+
+
 
