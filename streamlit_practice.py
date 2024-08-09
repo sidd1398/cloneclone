@@ -8,16 +8,15 @@ import streamlit as st
 import csv
 import pandas as pd
 
-
 st.cache_data.clear()
 
 # CSV 파일 불러오기 시도
 try:
     name_data = pd.read_csv("wooparoo_list_data.csv", encoding="utf-8")
     compressed_data = pd.read_csv("wooparoo_all_data_compressed.csv", encoding="utf-8")
-    st.write("CSV 파일 로드 성공")
+    st.write("파일 로드 성공")
 except Exception as e:
-    st.error(f"CSV 파일 로드 실패: {e}")
+    st.error(f"파일 로드 실패: {e}")
     st.stop()
 
 # 이름을 sno로 변환하는 함수
@@ -40,12 +39,12 @@ with open("wooparoo_list_data.csv", "r", encoding="utf-8") as name_file:
         sno_to_name_dict[sno] = name
 
 # Streamlit을 사용한 사용자 인터페이스
-st.title("Wooparoo Name Matching")
+st.title("우파루 가상 크로스")
 
-left_name = st.text_input("Enter the left name:")
-right_name = st.text_input("Enter the right name:")
+left_name = st.text_input("왼쪽 우파루:")
+right_name = st.text_input("오른쪽 우파루:")
 
-if st.button("Find Result"):
+if st.button("버튼을 누르면 결과창이 출력됩니다."):
     left_sno = name_to_sno(left_name, name_to_sno_dict)
     right_sno = name_to_sno(right_name, name_to_sno_dict)
 
@@ -80,11 +79,13 @@ if st.button("Find Result"):
                 # left와 right가 일치하는지 확인
                 if left == left_sno and right == right_sno:
                     result_name = sno_to_name(result, sno_to_name_dict)
+                    rate = f"{float(rate):.2f}"  # 소수점 둘째자리까지 확률 표기
                     results.append([result_name, rate])
                     found = True
             
             if found:
                 df = pd.DataFrame(results, columns=["결과 우파루", "확률 (%)"])
+                df.index = df.index + 1  # 행 번호를 1부터 시작하도록 설정
                 st.table(df)
             else:
                 st.error(f"No matching result found for {left_name} (left) and {right_name} (right).")
