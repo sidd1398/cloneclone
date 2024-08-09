@@ -75,7 +75,7 @@ print(" ", end='')
 import streamlit as st
 import pandas as pd
 
-st.title("가상 크로스")
+st.title("가상 크로스 ee")
 
 left = st.text_input("왼쪽 우파루:")
 right = st.text_input("오른쪽 우파루:")
