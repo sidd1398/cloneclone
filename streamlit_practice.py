@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[ ]:
 
 
 import streamlit as st
@@ -10,8 +10,6 @@ import pandas as pd
 
 
 st.cache_data.clear()
-
-
 
 # CSV 파일 불러오기 시도
 try:
@@ -63,6 +61,8 @@ if st.button("Find Result"):
             prev_left = None
             prev_right = None
             
+            results = []
+            
             for row in reader:
                 left, right, result, rate = row
                 
@@ -80,10 +80,13 @@ if st.button("Find Result"):
                 # left와 right가 일치하는지 확인
                 if left == left_sno and right == right_sno:
                     result_name = sno_to_name(result, sno_to_name_dict)
-                    st.success(f"Result: {result_name}, Rate: {rate}%")
+                    results.append([result_name, rate])
                     found = True
             
-            if not found:
+            if found:
+                df = pd.DataFrame(results, columns=["결과 우파루", "확률 (%)"])
+                st.table(df)
+            else:
                 st.error(f"No matching result found for {left_name} (left) and {right_name} (right).")
 
 
