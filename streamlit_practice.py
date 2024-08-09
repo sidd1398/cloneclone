@@ -5,19 +5,71 @@
 
 
 import streamlit as st
-import pandas as pd
+import csv
 
-st.title("가상 크로스 e")
+# 이름을 sno로 변환하는 함수
+def name_to_sno(name, name_to_sno_dict):
+    return name_to_sno_dict.get(name, None)
 
-left = st.text_input("왼쪽 우파루:")
-right = st.text_input("오른쪽 우파루:")
+# sno를 이름으로 변환하는 함수
+def sno_to_name(sno, sno_to_name_dict):
+    return sno_to_name_dict.get(sno, "Unknown")
 
-# pandas를 사용해 csv 파일 읽기
-df = pd.read_csv('streamlit.csv', encoding='utf-8')
+# wooparoo_list_data.csv 파일을 읽어 sno와 name 매핑 생성
+name_to_sno_dict = {}
+sno_to_name_dict = {}
+with open("wooparoo_list_data.csv", "r", encoding="utf-8") as name_file:
+    reader = csv.reader(name_file)
+    next(reader)  # 헤더 건너뛰기
+    for row in reader:
+        sno, name = row
+        name_to_sno_dict[name] = sno
+        sno_to_name_dict[sno] = name
 
-if st.button("크로스"):
-    st.write(df)  # DataFrame 전체를 출력
-    st.write('ddd')
+# Streamlit을 사용한 사용자 인터페이스
+st.title("Wooparoo Name Matching")
+
+left_name = st.text_input("Enter the left name:")
+right_name = st.text_input("Enter the right name:")
+
+if st.button("Find Result"):
+    left_sno = name_to_sno(left_name, name_to_sno_dict)
+    right_sno = name_to_sno(right_name, name_to_sno_dict)
+
+    if left_sno is None or right_sno is None:
+        st.error("One or both names were not found in the list.")
+    else:
+        # wooparoo_all_data_sorted.csv 파일에서 [left, right]와 일치하는 [result, rate] 찾기
+        with open("wooparoo_all_data_compressed.csv", "r", encoding="utf-8") as sorted_file:
+            reader = csv.reader(sorted_file)
+            next(reader)  # 헤더 건너뛰기
+            
+            found = False
+            prev_left = None
+            prev_right = None
+            
+            for row in reader:
+                left, right, result, rate = row
+                
+                # 이전 값을 사용하여 빈 값을 채움
+                if left != "":
+                    prev_left = left
+                else:
+                    left = prev_left
+                
+                if right != "":
+                    prev_right = right
+                else:
+                    right = prev_right
+                
+                # left와 right가 일치하는지 확인
+                if left == left_sno and right == right_sno:
+                    result_name = sno_to_name(result, sno_to_name_dict)
+                    st.success(f"Result: {result_name}, Rate: {rate}%")
+                    found = True
+            
+            if not found:
+                st.error(f"No matching result found for {left_name} (left) and {right_name} (right).")
 
 
 # In[ ]:
