@@ -6,6 +6,21 @@
 
 import streamlit as st
 import csv
+import pandas as pd
+
+
+st.cache_data.clear()
+
+
+
+# CSV 파일 불러오기 시도
+try:
+    name_data = pd.read_csv("wooparoo_list_data.csv", encoding="utf-8")
+    compressed_data = pd.read_csv("wooparoo_all_data_compressed.csv", encoding="utf-8")
+    st.write("CSV 파일 로드 성공")
+except Exception as e:
+    st.error(f"CSV 파일 로드 실패: {e}")
+    st.stop()
 
 # 이름을 sno로 변환하는 함수
 def name_to_sno(name, name_to_sno_dict):
