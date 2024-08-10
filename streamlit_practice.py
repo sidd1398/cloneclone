@@ -44,20 +44,22 @@ st.title("우파루 가상 크로스")
 
 left_name = st.text_input("왼쪽 우파루:")
 right_name = st.text_input("오른쪽 우파루:")
-option = st.text_input("0: 일반크로스, 1: 매직크로스 행운업, 2: 매크행업 + 확률업이벤트")
-
-# 옵션에 따라 파일 선택
-if option == "1":
-    compressed_file = "wooparoo_all_data_lucky_compressed.csv"
-    st.write("매직크로스 행운업")
-elif option == "2":
-    compressed_file = "wooparoo_all_data_event_compressed.csv"
-    st.write("매크행업 + 확률업이벤트")
-else:
-    compressed_file = "wooparoo_all_data_compressed.csv"
-    st.write("일반크로스")
+option = st.text_input("0: 일반크로스,    1: 매직크로스 행운업,    2: 매크행업 + 확률업이벤트")
 
 if st.button("버튼을 누르면 결과창이 출력됩니다."):
+    # 옵션에 따라 파일 선택
+    if option == "1":
+        compressed_file = "wooparoo_all_data_lucky_compressed.csv"
+        st.write("매직크로스 행운업")
+    elif option == "2":
+        compressed_file = "wooparoo_all_data_event_compressed.csv"
+        st.write("매크행업 + 확률업이벤트")
+    else:
+        compressed_file = "wooparoo_all_data_compressed.csv"
+        st.write("일반크로스")
+        
+    st.write(f"{left_name} + {right_name}")
+    
     left_sno = name_to_sno(left_name, name_to_sno_dict)
     right_sno = name_to_sno(right_name, name_to_sno_dict)
 
