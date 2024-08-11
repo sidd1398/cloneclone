@@ -210,26 +210,20 @@ elif option == "우파루 조합 찾기":
                         if result == sno_option2:
                             left_n = sno_to_name_dict.get(left, "Unknown")
                             right_n = sno_to_name_dict.get(right, "Unknown")
-                            results.append([left, right, rate, cross_times, wooparoo_get_time])
+                            results.append([left_n, right_n, rate,                                            round(cross_times, 2), round(wooparoo_get_time, 2)])
                             found = True
                     
                     if found:
-                        st.write("확률 %: 이 조합에서 원하는 우파루가 나올 확률")
-                        st.write("cross: 1회 크로스에 해당하는 소환시간의 기댓값")
-                        st.write("get: 원하는 우파루 1마리가 나올 때까지 걸리는 시간의 기댓값")
-                        df = pd.DataFrame(results, columns=["왼쪽","오른쪽", "확률 %", "cross", "get"])
+                        st.write("확률 %:    이 조합에서 원하는 우파루가 나올 확률")
+                        st.write("cross:    원하는 우파루를 얻기 위해 필요한 \"크로스 횟수\"의 기댓값")
+                        st.write("get_time:    원하는 우파루 1마리가 나올 때까지 \"걸리는 시간\"의 기댓값")
+                        df = pd.DataFrame(results, columns=["왼쪽","오른쪽", "확률 %", "cross", "get_time"])
                         df.index = df.index + 1  # 행 번호를 1부터 시작하도록 설정
                         st.table(df)
                     else:
                         st.write("해당 우파루에 대한 추천 조합이 없습니다.")
             except Exception as e:
                 st.error(f"finding combination 파일 로드 실패: {e}")
-
-
-# In[2]:
-
-
-60.1 // 1
 
 
 # In[ ]:
