@@ -76,6 +76,28 @@ if st.button("버튼을 누르면 결과창이 출력됩니다."):
     if left_sno is None or right_sno is None:
         st.error("입력한 이름의 우파루가 존재하지 않습니다.")
     else:
+        # [left, right]에 해당하는 expected_time을 출력하기
+        try:
+            with open(expected_file, 'r', encoding='utf-8') as sorted_file:
+                reader = csv.reader(sorted_file)
+                next(reader)  # 헤더 건너뛰기
+                found = False
+
+                # CSV 파일의 각 행(row)을 순회
+                for row in reader:
+                    left, right, expected_time = row
+
+                    # left_name과 right_name이 일치하는지 확인
+                    if left == left_sno and right == right_sno:
+                        st.write(f"1회 크로스 시간 기댓값: {float(expected_time):.2f}시간")
+                        found = True
+                        break
+                # 해당 조합이 없는 경우 메시지 출력
+                if not found:
+                    st.write("해당 조합에 대한 크로스 시간 기댓값이 없습니다.")
+        except Exception as e:
+            st.error(f"expected 파일 로드 실패: {e}")
+
         # 선택된 파일에서 [left, right]와 일치하는 [result, rate] 찾기
         try:
             with open(compressed_file, "r", encoding="utf-8") as sorted_file:
@@ -103,8 +125,9 @@ if st.button("버튼을 누르면 결과창이 출력됩니다."):
                     
                     # left와 right가 일치하는지 확인
                     if left == left_sno and right == right_sno:
+                        # 우파루 구분(prop)에 따라 보여줄지 말지 결정
                         result_prop = sno_to_prop_dict.get(result, "Unknown")
-                        show_result = False  # 우파루 구분(prop)에 따라 보여줄지 말지 결정
+                        show_result = False
                         if result_prop == '9':
                             if checkbox1 == True:
                                 show_result = True
@@ -124,6 +147,7 @@ if st.button("버튼을 누르면 결과창이 출력됩니다."):
                             if checkbox5 == True:
                                 show_result = True
                         
+                        # 보여줄 데이터라면 표에 추가하기
                         if show_result:
                             result_name = sno_to_name_dict.get(result, "Unknown")
                             rate = f"{float(rate):.2f}"  # 소수점 둘째자리까지 확률 표기
@@ -137,7 +161,7 @@ if st.button("버튼을 누르면 결과창이 출력됩니다."):
                 else:
                     st.error(f"파일에 우파루 조합이 존재하지 않습니다. {left_name} (left), {right_name} (right).")
         except Exception as e:
-            st.error(f"파일 로드 실패: {e}")
+            st.error(f"compressed 파일 로드 실패: {e}")
 
 
 # In[ ]:
