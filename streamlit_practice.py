@@ -39,12 +39,16 @@ with open("wooparoo_list_data.csv", "r", encoding="utf-8") as name_file:
 
 # Streamlit 사용자 인터페이스
 st.title("우파루 가상 크로스")
-
 cross_option = st.radio('크로스 옵션',
                         ('일반크로스', '매직크로스 행운업', '매크행업+이벤트'),
                         index=0)  # index=0은 첫 번째를 기본 선택 옵션으로
 left_name = st.text_input("왼쪽 우파루:")
 right_name = st.text_input("오른쪽 우파루:")
+checkbox1 = st.checkbox('별속성 보기', value=True)
+checkbox2 = st.checkbox('한정 보기', value=True)
+checkbox3 = st.checkbox('상시 3속성 보기', value=True)
+checkbox4 = st.checkbox('레어 보기', value=True)
+checkbox5 = st.checkbox('기타 등등 보기', value=True)
 
 if st.button("버튼을 누르면 결과창이 출력됩니다."):
     # 옵션에 따라 파일 선택
@@ -99,10 +103,29 @@ if st.button("버튼을 누르면 결과창이 출력됩니다."):
                     
                     # left와 right가 일치하는지 확인
                     if left == left_sno and right == right_sno:
-                        result_name = sno_to_name_dict.get(result, "Unknown")
-                        rate = f"{float(rate):.2f}"  # 소수점 둘째자리까지 확률 표기
-                        results.append([result_name, rate])
-                        found = True
+                        result_prop = sno_to_prop_dict.get(result, "Unknown")
+                        show_result = False  # 우파루 구분(prop)에 따라 보여줄지 말지 결정
+                        if result_prop == 9:
+                            if checkbox1 == True:
+                                show_result = True
+                        elif result_prop == 6 or result_prop == 7:
+                            if checkbox2 == True:
+                                show_result = True
+                        elif result_prop == 3 or result_prop == 5 or result_prop == 13:
+                            if checkbox3 == True:
+                                show_result = True
+                        elif result_prop == 4 or result_prop == 5:
+                            if checkbox4 == True:
+                                show_result = True
+                        else:
+                            if checkbox5 == True:
+                                show_result = True
+                        
+                        if show_result:
+                            result_name = sno_to_name_dict.get(result, "Unknown")
+                            rate = f"{float(rate):.2f}"  # 소수점 둘째자리까지 확률 표기
+                            results.append([result_name, rate])
+                            found = True
                 
                 if found:
                     df = pd.DataFrame(results, columns=["결과 우파루", "확률 (%)"])
