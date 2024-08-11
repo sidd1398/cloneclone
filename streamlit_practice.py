@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[2]:
 
 
 import streamlit as st
@@ -10,15 +10,18 @@ import pandas as pd
 
 st.cache_data.clear()
 
+st.write("Update: 2024-08-10")
+st.write("Made by 시드드#0001")
+st.write("Thanks to kjeok00, replica, yskunn")
+
 # CSV 파일 불러오기 시도
+'''
 try:
     name_data = pd.read_csv("wooparoo_list_data.csv", encoding="utf-8")
-    st.write("Update: 2024-08-10")
-    st.write("Made by 시드드#0001")
-    st.write("Thanks to kjeok00, replica, yskunn")
 except Exception as e:
     st.error(f"파일 로드 실패: {e}")
-    st.stop()
+    st.stop() 
+'''
 
 # 이름을 sno로 변환하는 함수
 def name_to_sno(name, name_to_sno_dict):
@@ -28,43 +31,55 @@ def name_to_sno(name, name_to_sno_dict):
 def sno_to_name(sno, sno_to_name_dict):
     return sno_to_name_dict.get(sno, "Unknown")
 
-# wooparoo_list_data.csv 파일을 읽어 sno와 name 매핑 생성
+# wooparoo_list_data.csv 파일을 읽어 sno, name, time, prop 매핑 생성
 name_to_sno_dict = {}
 sno_to_name_dict = {}
+sno_to_time_dict = {}
+sno_to_prop_dict = {}
 with open("wooparoo_list_data.csv", "r", encoding="utf-8") as name_file:
     reader = csv.reader(name_file)
-    next(reader)  # 헤더 건너뛰기
+    next(reader)  # 헤더 건너뛰기 -> 필수!!
     for row in reader:
-        sno, name = row
+        sno, name, time, prop = row
         name_to_sno_dict[name] = sno
         sno_to_name_dict[sno] = name
+        sno_to_name_dict[sno] = time
+        sno_to_name_dict[sno] = prop
 
-# Streamlit을 사용한 사용자 인터페이스
+# Streamlit 사용자 인터페이스
 st.title("우파루 가상 크로스")
 
+cross_option = st.radio('크로스 옵션',
+                        ('일반크로스', '매직크로스 행운업', '매크행업+이벤트'),
+                        index=0)  # index=0은 첫 번째를 기본 선택 옵션으로
 left_name = st.text_input("왼쪽 우파루:")
 right_name = st.text_input("오른쪽 우파루:")
-option = st.text_input("0: 일반크로스,    1: 매직크로스 행운업,    2: 매크행업 + 확률업이벤트")
 
 if st.button("버튼을 누르면 결과창이 출력됩니다."):
     # 옵션에 따라 파일 선택
-    if option == "1":
-        compressed_file = "wooparoo_all_data_lucky_compressed.csv"
-        st.write("매직크로스 행운업")
-    elif option == "2":
-        compressed_file = "wooparoo_all_data_event_compressed.csv"
-        st.write("매크행업 + 확률업이벤트")
-    else:
+    if option == '일반크로스':
         compressed_file = "wooparoo_all_data_compressed.csv"
+        expected_file = "wooparoo_expected.csv"
         st.write("일반크로스")
+    elif option == "매직크로스 행운업":
+        compressed_file = "wooparoo_all_data_lucky_compressed.csv"
+        expected_file = "wooparoo_expected_lucky.csv"
+        st.write("매직크로스 행운업")
+    elif option == "매크행업+이벤트":
+        compressed_file = "wooparoo_all_data_event_compressed.csv"
+        expected_file = "wooparoo_expected_event.csv"
+        st.write("매크행업+이벤트")
+    else:
+        st.write("cross_option 오류")
+        st.stop()
         
     st.write(f"{left_name} + {right_name}")
     
-    left_sno = name_to_sno(left_name, name_to_sno_dict)
-    right_sno = name_to_sno(right_name, name_to_sno_dict)
+    left_sno = name_to_sno_dict.get(left_name, None)
+    right_sno = name_to_sno_dict.get(right_name, None)
 
     if left_sno is None or right_sno is None:
-        st.error("입력하신 이름의 우파루가 존재하지 않습니다.")
+        st.error("입력한 이름의 우파루가 존재하지 않습니다.")
     else:
         # 선택된 파일에서 [left, right]와 일치하는 [result, rate] 찾기
         try:
@@ -81,12 +96,11 @@ if st.button("버튼을 누르면 결과창이 출력됩니다."):
                 for row in reader:
                     left, right, result, rate = row
                     
-                    # 이전 값을 사용하여 빈 값을 채움
+                    # 이전 값을 사용하여 빈 값을 채움 (compressed 버전 파일이라 필요)
                     if left != "":
                         prev_left = left
                     else:
                         left = prev_left
-                    
                     if right != "":
                         prev_right = right
                     else:
