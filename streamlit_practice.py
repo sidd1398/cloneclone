@@ -183,12 +183,12 @@ elif option == "우파루 조합 찾기":
         # 우파루 이름(name)에 대한 식별코드(sno)와 소환시간(time) 산출
         sno_option2 = name_to_sno_dict.get(name_option2, None)
         time_option2 = sno_to_time_dict.get(sno_option2, "Unknown")
-        hour = time_option2 // 1
-        minute = round(time_option2 * 60, 0)
+        hour = float(time_option2) // 1
+        minute = round(float(time_option2) * 60, 0)
         if minute == 0:
-            st.write(f"{name_option2} 소환시간 : {hour}시간")
+            st.write(f"{name_option2} 소환시간 : {int(hour)}시간")
         else:
-            st.write(f"{name_option2} 소환시간 : {hour}시간 {minute}분")
+            st.write(f"{name_option2} 소환시간 : {int(hour)}시간 {float(minute):.0f}분")
             
         if sno_option2 is None:
             st.error("입력한 이름의 우파루가 존재하지 않습니다.")
@@ -224,6 +224,12 @@ elif option == "우파루 조합 찾기":
                         st.write("해당 우파루에 대한 추천 조합이 없습니다.")
             except Exception as e:
                 st.error(f"finding combination 파일 로드 실패: {e}")
+
+
+# In[2]:
+
+
+60.1 // 1
 
 
 # In[ ]:
