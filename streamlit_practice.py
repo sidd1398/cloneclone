@@ -14,15 +14,6 @@ st.write("Update: 2024-08-10")
 st.write("Made by 시드드#0001")
 st.write("Thanks to kjeok00, replica, yskunn")
 
-# CSV 파일 불러오기 시도
-'''
-try:
-    name_data = pd.read_csv("wooparoo_list_data.csv", encoding="utf-8")
-except Exception as e:
-    st.error(f"파일 로드 실패: {e}")
-    st.stop() 
-'''
-
 # 이름을 sno로 변환하는 함수
 def name_to_sno(name, name_to_sno_dict):
     return name_to_sno_dict.get(name, None)
@@ -43,8 +34,8 @@ with open("wooparoo_list_data.csv", "r", encoding="utf-8") as name_file:
         sno, name, time, prop = row
         name_to_sno_dict[name] = sno
         sno_to_name_dict[sno] = name
-        sno_to_name_dict[sno] = time
-        sno_to_name_dict[sno] = prop
+        sno_to_time_dict[sno] = time
+        sno_to_prop_dict[sno] = prop
 
 # Streamlit 사용자 인터페이스
 st.title("우파루 가상 크로스")
@@ -57,15 +48,15 @@ right_name = st.text_input("오른쪽 우파루:")
 
 if st.button("버튼을 누르면 결과창이 출력됩니다."):
     # 옵션에 따라 파일 선택
-    if option == '일반크로스':
+    if cross_option == '일반크로스':
         compressed_file = "wooparoo_all_data_compressed.csv"
         expected_file = "wooparoo_expected.csv"
         st.write("일반크로스")
-    elif option == "매직크로스 행운업":
+    elif cross_option == "매직크로스 행운업":
         compressed_file = "wooparoo_all_data_lucky_compressed.csv"
         expected_file = "wooparoo_expected_lucky.csv"
         st.write("매직크로스 행운업")
-    elif option == "매크행업+이벤트":
+    elif cross_option == "매크행업+이벤트":
         compressed_file = "wooparoo_all_data_event_compressed.csv"
         expected_file = "wooparoo_expected_event.csv"
         st.write("매크행업+이벤트")
@@ -108,7 +99,7 @@ if st.button("버튼을 누르면 결과창이 출력됩니다."):
                     
                     # left와 right가 일치하는지 확인
                     if left == left_sno and right == right_sno:
-                        result_name = sno_to_name(result, sno_to_name_dict)
+                        result_name = sno_to_name_dict.get(result, "Unknown")
                         rate = f"{float(rate):.2f}"  # 소수점 둘째자리까지 확률 표기
                         results.append([result_name, rate])
                         found = True
