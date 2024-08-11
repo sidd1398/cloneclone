@@ -184,7 +184,7 @@ elif option == "우파루 조합 찾기":
         sno_option2 = name_to_sno_dict.get(name_option2, None)
         time_option2 = sno_to_time_dict.get(sno_option2, "Unknown")
         hour = float(time_option2) // 1
-        minute = round(float(time_option2-hour) * 60, 0)
+        minute = round((float(time_option2)-hour) * 60, 0)
         if minute == 0:
             st.write(f"{name_option2} 소환시간 : {int(hour)}시간")
         else:
