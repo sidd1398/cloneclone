@@ -105,17 +105,20 @@ if st.button("버튼을 누르면 결과창이 출력됩니다."):
                     if left == left_sno and right == right_sno:
                         result_prop = sno_to_prop_dict.get(result, "Unknown")
                         show_result = False  # 우파루 구분(prop)에 따라 보여줄지 말지 결정
-                        if result_prop == 9:
+                        if result_prop == '9':
                             if checkbox1 == True:
                                 show_result = True
-                        elif result_prop == 6 or result_prop == 7:
+                        elif result_prop == '6' or result_prop == '7':
                             if checkbox2 == True:
                                 show_result = True
-                        elif result_prop == 3 or result_prop == 5 or result_prop == 13:
+                        elif result_prop == '3' or result_prop == '13':
                             if checkbox3 == True:
                                 show_result = True
-                        elif result_prop == 4 or result_prop == 5:
+                        elif result_prop == '4':
                             if checkbox4 == True:
+                                show_result = True
+                        elif result_prop == '5':
+                            if checkbox3 == True or checkbox4 == True:
                                 show_result = True
                         else:
                             if checkbox5 == True:
