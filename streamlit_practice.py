@@ -10,7 +10,7 @@ import pandas as pd
 
 st.cache_data.clear()
 
-st.write("Update: 2024-08-10")
+st.write("Update: 2024-08-17")
 st.write("Made by 시드드#0001")
 st.write("Thanks to kjeok00, replica, yskunn")
 
