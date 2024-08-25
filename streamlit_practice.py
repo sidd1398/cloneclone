@@ -154,7 +154,7 @@ if option == "가상 크로스":
                                 result_name = sno_to_name_dict.get(result, "Unknown")
                                 rate = f"{float(rate):.2f}"  # 소수점 둘째자리까지 확률 표기
                                 result_time = round(float(sno_to_time_dict.get(result, "Unknown")), 2)
-                                results.append([result_name, rate, result_time])
+                                results.append([result_name, rate, f"{result_time:.2f}"])
                                 found = True
 
                     if found:
