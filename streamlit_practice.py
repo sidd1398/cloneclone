@@ -164,7 +164,7 @@ if option == "가상 크로스":
                                 found = True
 
                     if found:
-                        if sort_option_code = 1:
+                        if sort_option_code == 1:
                             # result_time을 기준으로 내림차순 정렬
                             results = sorted(results, key=lambda x: x[2], reverse=True)
                         df = pd.DataFrame(results, columns=["결과 우파루", "확률 [%]", "소환시간 [시간]"]) 
