@@ -161,8 +161,8 @@ if option == "가상 크로스":
                         if sort_option == '소환시간':
                             # result_time을 기준으로 내림차순 정렬
                             results = sorted(results, key=lambda x: x[2], reverse=True)
-                            # 표로 출력할 때만 result_time을 포맷팅
-                            formatted_results = [[name, rate, f"{time:.2f}"] for name, rate, time in results] 
+                            # 표 출력 (float_format 적용 -> 소수점 둘째자리까지만 표기되도록)
+                            st.table(df.style.format({"소환시간 [시간]": "{:.2f}"}))
                         df = pd.DataFrame(results, columns=["결과 우파루", "확률 [%]", "소환시간 [시간]"]) 
                         df.index = df.index + 1  # 행 번호를 1부터 시작하도록 설정
                         st.table(df)
