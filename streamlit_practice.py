@@ -160,8 +160,8 @@ if option == "가상 크로스":
                     if found:
                         if sort_option == '소환시간':
                             # result_time을 기준으로 내림차순 정렬
-                            results_sorted = sorted(results, key=lambda x: x[2], reverse=True)
-                        df = pd.DataFrame(results_sorted, columns=["결과 우파루", "확률 [%]", "소환시간 [시간]"]) 
+                            results = sorted(results, key=lambda x: x[2], reverse=True)
+                        df = pd.DataFrame(results, columns=["결과 우파루", "확률 [%]", "소환시간 [시간]"]) 
                         df.index = df.index + 1  # 행 번호를 1부터 시작하도록 설정
                         st.table(df)
                     else:
