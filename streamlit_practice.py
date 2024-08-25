@@ -43,6 +43,7 @@ cross_option = st.radio('크로스 옵션',
                         index=0)  # index=0은 첫 번째를 기본 선택 옵션으로
 ###############################################################################################
 if option == "가상 크로스":
+    sort_option = st.radio('정렬 기준', ('확률', '소환시간'), index=0)
     left_name = st.text_input("왼쪽 우파루:")
     right_name = st.text_input("오른쪽 우파루:")
     checkbox1 = st.checkbox('별속성 보기', value=True)
@@ -152,11 +153,15 @@ if option == "가상 크로스":
                             if show_result:
                                 result_name = sno_to_name_dict.get(result, "Unknown")
                                 rate = f"{float(rate):.2f}"  # 소수점 둘째자리까지 확률 표기
-                                results.append([result_name, rate])
+                                result_time = sno_to_time_dict.get(result, "Unknown")
+                                results.append([result_name, rate, result_time])
                                 found = True
 
                     if found:
-                        df = pd.DataFrame(results, columns=["결과 우파루", "확률 (%)"])
+                        if sort_option == '소환시간':
+                            # result_time을 기준으로 내림차순 정렬
+                            results_sorted = sorted(results, key=lambda x: x[2], reverse=True)
+                        df = pd.DataFrame(results_sorted, columns=["결과 우파루", "확률 [%]", "소환시간 [시간]"]) 
                         df.index = df.index + 1  # 행 번호를 1부터 시작하도록 설정
                         st.table(df)
                     else:
