@@ -10,8 +10,8 @@ import pandas as pd
 
 st.cache_data.clear()
 
-st.write("안내사항: 레인 확업 이벤트 2배 미적용 확률")
-st.write("Update: 2024-08-25")
+st.write("안내사항: 확업이벤트 확률은 이벤트 당일에 나옵니다.")
+st.write("Update: 2024-08-28")
 st.write("Made by 시드드#0001")
 st.write("Thanks to kjeok00, replica, yskunn")
 
