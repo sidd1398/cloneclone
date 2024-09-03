@@ -315,9 +315,9 @@ elif option == "우파루 정보 보기":
         if filters:
             for f in filters:
                 data_to_show_filtered = data_to_show[data_to_show['속성'].apply(lambda x: f in x)]
-            
-        # 필터링된 데이터 출력
-        st.write(data_to_show_filtered)
+        
+        # 필터링된 데이터 출력 (index 없이, 열너비 조정)
+        st.dataframe(data_to_show, width=800)  # 전체 테이블 너비 조정 가능
 
 
 # In[ ]:
