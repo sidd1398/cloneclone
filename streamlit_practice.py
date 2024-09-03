@@ -24,7 +24,7 @@ with open("wooparoo_list_data.csv", "r", encoding="utf-8") as name_file:
     reader = csv.reader(name_file)
     next(reader)  # 헤더 건너뛰기 -> 필수!!
     for row in reader:
-        sno, name, time, prop = row
+        sno, name, time, prop, attrs = row
         name_to_sno_dict[name] = sno
         sno_to_name_dict[sno] = name
         sno_to_time_dict[sno] = time
