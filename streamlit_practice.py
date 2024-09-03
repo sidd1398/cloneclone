@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
+# In[8]:
 
 
 '''
@@ -9,8 +9,8 @@
 1. st.table은 그냥 표로 보여준다.
   st.write으로 pandas 데이터(열이름 포함)를 출력하면 사용자가 열이름을 클릭하여 정렬할 수 있는 표로 출력된다.
   st.dataframe도 마찬가지
-2. 데이터를 pandas로 읽어들일 때 index는 필요없으면 False로 두자
-  data = pd.read_csv("wooparoo_list_data.csv", index_col=False)
+2. 데이터를 pandas로 읽어들일 때 index는 필요없으면 index_col은 0로 두어 표시되지 않게 하자.
+  data = pd.read_csv("wooparoo_list_data.csv", index_col=0)
 '''
 
 import streamlit as st
@@ -249,9 +249,11 @@ elif option == "우파루 조합 찾기":
 ###############################################################################################
 elif option == "우파루 정보 보기":
     # CSV 파일을 읽어들임
-    data = pd.read_csv("wooparoo_list_data.csv", index_col=0)
+    data = pd.read_csv('wooparoo_list_data.csv', usecols=['name', 'time', 'attrs'])
+    #data = pd.read_csv("wooparoo_list_data.csv", index_col=0)
     # 'time'을 기준으로 오름차순 정렬
     data = data.sort_values(by='time')
+    data.columns = ['이름', '소환시간', '속성']
     
     # 시간 형식을 "n시간" 또는 "n시간 m분"으로 변환
     data['formatted_time'] = data['time'].apply(lambda t: f"{int(t)}시간" 
@@ -264,15 +266,15 @@ elif option == "우파루 정보 보기":
     data['formatted_attrs'] = data['attrs'].apply(lambda x: [attr_mapping[i] for i in eval(x)])
 
     # 필요한 데이터만 선택
-    data_to_show = data[['name', 'formatted_time', 'formatted_attrs']]
-    data_to_show.columns = ['이름', '소환시간', '속성']
+    #data_to_show = data[['name', 'formatted_time', 'formatted_attrs']]
+    #data_to_show.columns = ['이름', '소환시간', '속성']
     
     # 필터 추가
     checkbox_filter = st.checkbox("필터 열기", value=False)
     
     if checkbox_filter == False:
         # 필터링된 데이터 출력 (index 없이, 열너비 조정)
-        st.dataframe(data_to_show, width=800)  # 전체 테이블 너비 조정 가능
+        st.dataframe(data, width=800)  # 전체 테이블 너비 조정 가능
     else:
         # 필터 체크박스
         checkbox_filter1 = st.checkbox("숲", value=False)
@@ -323,12 +325,12 @@ elif option == "우파루 정보 보기":
 
         # 필터 적용
         if filters:
-            data_to_show_filtered = data_to_show[data_to_show['속성'].apply(lambda x: all(f in x for f in filters))]
+            data_filtered = data[data_to_show['속성'].apply(lambda x: all(f in x for f in filters))]
             #for f in filters:      (이 코드는 필터링이 여러 개일 때 뭔가 이상하게 됨)
             #    data_to_show_filtered = data_to_show[data_to_show['속성'].apply(lambda x: f in x)]
         
         # 필터링된 데이터 출력 (index 없이, 열너비 조정)
-        st.dataframe(data_to_show_filtered, width=800)  # 전체 테이블 너비 조정 가능
+        st.dataframe(data_filtered, width=800)  # 전체 테이블 너비 조정 가능
 
 
 # In[ ]:
