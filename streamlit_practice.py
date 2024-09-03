@@ -250,7 +250,7 @@ elif option == "우파루 조합 찾기":
 elif option == "우파루 정보 보기":
     # CSV 파일을 읽어들임
     data = pd.read_csv('wooparoo_list_data.csv', usecols=['name', 'time', 'attrs'], index_col=0)
-    data = data.drop(df.columns[0], axis=1)
+    data = data.drop(data.columns[0], axis=1)
     #data = pd.read_csv("wooparoo_list_data.csv", index_col=0)
     # 'time'을 기준으로 오름차순 정렬
     data = data.sort_values(by='time')
