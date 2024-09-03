@@ -36,11 +36,13 @@ st.title("우파루 가상 크로스")
 # 선택 박스 설정
 option = st.selectbox(
     "모드 선택",
-    ["가상 크로스", "우파루 조합 찾기"]
+    ["가상 크로스", "우파루 조합 찾기", "우파루 정보 보기"]
 )
 cross_option = st.radio('크로스 옵션',
                         ('일반크로스', '매직크로스 행운업', '매크행업+이벤트'),
                         index=0)  # index=0은 첫 번째를 기본 선택 옵션으로
+###############################################################################################
+###############################################################################################
 ###############################################################################################
 if option == "가상 크로스":
     sort_option = st.radio('정렬 기준', ('확률', '소환시간'), index=0)
@@ -170,6 +172,8 @@ if option == "가상 크로스":
             except Exception as e:
                 st.error(f"compressed 파일 로드 실패: {e}")
 ###############################################################################################
+###############################################################################################
+###############################################################################################
 elif option == "우파루 조합 찾기":
     name_option2 = st.text_input("우파루 이름:")
     if st.button("버튼을 누르면 결과창이 출력됩니다."):
@@ -231,6 +235,89 @@ elif option == "우파루 조합 찾기":
                         st.write("해당 우파루에 대한 추천 조합이 없습니다.")
             except Exception as e:
                 st.error(f"finding combination 파일 로드 실패: {e}")
+###############################################################################################
+###############################################################################################
+###############################################################################################
+elif option == "우파루 정보 보기":
+    # CSV 파일을 읽어들임
+    data = pd.read_csv("wooparoo_list_data.csv")
+    # 'time'을 기준으로 오름차순 정렬
+    data = data.sort_values(by='time')
+    
+    # 시간 형식을 "n시간" 또는 "n시간 m분"으로 변환
+    data['formatted_time'] = data['time'].apply(lambda t: f"{int(t)}시간" 
+                                                if int((t - int(t)) * 60) == 0 
+                                                else f"{int(t)}시간 {int((t - int(t)) * 60)}분") 
+    # attrs의 숫자를 대응하는 글자 속성으로 변환
+    attr_mapping = {1: "숲", 2: "땅", 3: "불", 4: "얼음", 5: "천둥", 6: "물", 7: "바람", 
+                    8: "빛", 9: "어둠", 10: "황금", 11: "보석", 12: "매직", 
+                    13: "구름", 14: "무지개", 15: "슈거"}
+    data['formatted_attrs'] = data['attrs'].apply(lambda x: [attr_mapping[i] for i in eval(x)])
+
+    # 필요한 데이터만 선택
+    data_to_show = data[['name', 'formatted_time', 'formatted_attrs']]
+    data_to_show.columns = ['이름', '소환시간', '속성']
+    
+    # 필터 추가
+    checkbox_filter = st.checkbox("필터 열기", value=False)
+    
+    if checkbox_filter == False:
+        st.write(data_to_show)
+    else:
+        # 필터 체크박스
+        checkbox_filter1 = st.checkbox("숲", value=False)
+        checkbox_filter2 = st.checkbox("땅", value=False)
+        checkbox_filter3 = st.checkbox("불", value=False)
+        checkbox_filter4 = st.checkbox("얼음", value=False)
+        checkbox_filter5 = st.checkbox("천둥", value=False)
+        checkbox_filter6 = st.checkbox("물", value=False)
+        checkbox_filter7 = st.checkbox("바람", value=False)
+        checkbox_filter12 = st.checkbox("매직", value=False)
+        checkbox_filter13 = st.checkbox("슈거", value=False)
+        checkbox_filter8 = st.checkbox("빛", value=False)
+        checkbox_filter9 = st.checkbox("어둠", value=False)
+        checkbox_filter10 = st.checkbox("황금", value=False)
+        checkbox_filter14 = st.checkbox("구름", value=False)
+        checkbox_filter15 = st.checkbox("무지개", value=False)
+
+        # 필터링 조건 생성
+        filters = []
+        if checkbox_filter1:
+            filters.append("숲")
+        if checkbox_filter2:
+            filters.append("땅")
+        if checkbox_filter3:
+            filters.append("불")
+        if checkbox_filter4:
+            filters.append("얼음")
+        if checkbox_filter5:
+            filters.append("천둥")
+        if checkbox_filter6:
+            filters.append("물")
+        if checkbox_filter7:
+            filters.append("바람")
+        if checkbox_filter8:
+            filters.append("빛")
+        if checkbox_filter9:
+            filters.append("어둠")
+        if checkbox_filter10:
+            filters.append("황금")
+        if checkbox_filter12:
+            filters.append("매직")
+        if checkbox_filter13:
+            filters.append("슈거")
+        if checkbox_filter14:
+            filters.append("구름")
+        if checkbox_filter15:
+            filters.append("무지개")
+
+        # 필터 적용
+        if filters:
+            for f in filters:
+                data_to_show_filtered = data_to_show[data_to_show['속성'].apply(lambda x: f in x)]
+            
+        # 필터링된 데이터 출력
+        st.write(data_to_show_filtered)
 
 
 # In[ ]:
