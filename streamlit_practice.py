@@ -249,7 +249,7 @@ elif option == "우파루 조합 찾기":
 ###############################################################################################
 elif option == "우파루 정보 보기":
     # CSV 파일을 읽어들임
-    data = pd.read_csv("wooparoo_list_data.csv", index_col=False)
+    data = pd.read_csv("wooparoo_list_data.csv", index_col=0)
     # 'time'을 기준으로 오름차순 정렬
     data = data.sort_values(by='time')
     
