@@ -4,6 +4,13 @@
 # In[2]:
 
 
+'''
+메모할 만한 팁
+1. st.table은 그냥 표로 보여준다.
+  st.write으로 pandas 데이터(열이름 포함)를 출력하면 사용자가 열이름을 클릭하여 정렬할 수 있는 표로 출력된다.
+  st.dataframe은 위와 동일하면서 index(행이름) 없음
+'''
+
 import streamlit as st
 import csv
 import pandas as pd
@@ -262,7 +269,8 @@ elif option == "우파루 정보 보기":
     checkbox_filter = st.checkbox("필터 열기", value=False)
     
     if checkbox_filter == False:
-        st.write(data_to_show)
+        # 필터링된 데이터 출력 (index 없이, 열너비 조정)
+        st.dataframe(data_to_show, width=800)  # 전체 테이블 너비 조정 가능
     else:
         # 필터 체크박스
         checkbox_filter1 = st.checkbox("숲", value=False)
@@ -313,8 +321,9 @@ elif option == "우파루 정보 보기":
 
         # 필터 적용
         if filters:
-            for f in filters:
-                data_to_show_filtered = data_to_show[data_to_show['속성'].apply(lambda x: f in x)]
+            data_to_show_filtered = data_to_show[data_to_show['속성'].apply(lambda x: all(f in x for f in filters))]
+            #for f in filters:
+            #    data_to_show_filtered = data_to_show[data_to_show['속성'].apply(lambda x: f in x)]
         
         # 필터링된 데이터 출력 (index 없이, 열너비 조정)
         st.dataframe(data_to_show_filtered, width=800)  # 전체 테이블 너비 조정 가능
