@@ -8,7 +8,9 @@
 메모할 만한 팁
 1. st.table은 그냥 표로 보여준다.
   st.write으로 pandas 데이터(열이름 포함)를 출력하면 사용자가 열이름을 클릭하여 정렬할 수 있는 표로 출력된다.
-  st.dataframe은 위와 동일하면서 index(행이름) 없음
+  st.dataframe도 마찬가지
+2. 데이터를 pandas로 읽어들일 때 index는 필요없으면 False로 두자
+  data = pd.read_csv("wooparoo_list_data.csv", index_col=False)
 '''
 
 import streamlit as st
@@ -247,7 +249,7 @@ elif option == "우파루 조합 찾기":
 ###############################################################################################
 elif option == "우파루 정보 보기":
     # CSV 파일을 읽어들임
-    data = pd.read_csv("wooparoo_list_data.csv")
+    data = pd.read_csv("wooparoo_list_data.csv", index_col=False)
     # 'time'을 기준으로 오름차순 정렬
     data = data.sort_values(by='time')
     
@@ -322,7 +324,7 @@ elif option == "우파루 정보 보기":
         # 필터 적용
         if filters:
             data_to_show_filtered = data_to_show[data_to_show['속성'].apply(lambda x: all(f in x for f in filters))]
-            #for f in filters:
+            #for f in filters:      (이 코드는 필터링이 여러 개일 때 뭔가 이상하게 됨)
             #    data_to_show_filtered = data_to_show[data_to_show['속성'].apply(lambda x: f in x)]
         
         # 필터링된 데이터 출력 (index 없이, 열너비 조정)
