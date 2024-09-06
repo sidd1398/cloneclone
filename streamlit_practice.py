@@ -19,8 +19,8 @@ import pandas as pd
 
 st.cache_data.clear()
 
-st.write("안내사항: 확업이벤트 확률은 이벤트 당일에 나옵니다.")
-st.write("Update: 2024-08-28")
+st.write("안내사항: 타래비 확업이벤트 업데이트")
+st.write("Update: 2024-09-07")
 st.write("Made by 시드드#0001")
 st.write("Thanks to kjeok00, replica, yskunn")
 
@@ -200,19 +200,21 @@ elif option == "우파루 조합 찾기":
             st.write("cross_option 오류")
             st.stop()
         
-        # 우파루 이름(name)에 대한 식별코드(sno)와 소환시간(time) 산출
+        # 우파루 이름(name)에 대한 식별코드(sno) 산출
         sno_option2 = name_to_sno_dict.get(name_option2, None)
-        time_option2 = sno_to_time_dict.get(sno_option2, "Unknown")
-        hour = float(time_option2) // 1
-        minute = round((float(time_option2)-hour) * 60, 0)
-        if minute == 0:
-            st.write(f"{name_option2} 소환시간 : {int(hour)}시간")
-        else:
-            st.write(f"{name_option2} 소환시간 : {int(hour)}시간 {float(minute):.0f}분")
-            
         if sno_option2 is None:
             st.error("입력한 이름의 우파루가 존재하지 않습니다.")
+            
         else:
+            # 우파루 이름(name)에 대한 소환시간(time) 산출
+            time_option2 = sno_to_time_dict.get(sno_option2, "Unknown")
+            hour = float(time_option2) // 1
+            minute = round((float(time_option2)-hour) * 60, 0)
+            if minute == 0:
+                st.write(f"{name_option2} 소환시간 : {int(hour)}시간")
+            else:
+                st.write(f"{name_option2} 소환시간 : {int(hour)}시간 {float(minute):.0f}분")
+            
             # [left, right]에 해당하는 expected_time을 출력하기
             try:
                 with open(finding_file, 'r', encoding='utf-8') as find_file:
@@ -328,8 +330,11 @@ elif option == "우파루 정보 보기":
             #for f in filters:      (이 코드는 필터링이 여러 개일 때 뭔가 이상하게 됨)
             #    data_to_show_filtered = data_to_show[data_to_show['속성'].apply(lambda x: f in x)]
         
-        # 필터링된 데이터 출력 (index 없이, 열너비 조정)
-        st.dataframe(data_to_show_filtered, width=800)  # 전체 테이블 너비 조정 가능
+            # 필터링된 데이터 출력 (index 없이, 열너비 조정)
+            st.dataframe(data_to_show_filtered, width=800)  # 전체 테이블 너비 조정 가능
+            
+        else:
+            st.write("필터를 선택해주세요.")
 
 
 # In[ ]:
