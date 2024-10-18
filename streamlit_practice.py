@@ -19,8 +19,8 @@ import pandas as pd
 
 st.cache_data.clear()
 
-st.write("안내사항: 트럼캣, 루돌 확률업 이벤트")
-st.write("Update: 2024-10-11")
+st.write("안내사항: 차우파, 틸키 확률업 이벤트")
+st.write("Update: 2024-10-18")
 st.write("Made by 시드드#0001")
 st.write("Thanks to kjeok00, replica, yskunn")
 
