@@ -474,7 +474,8 @@ elif option == "필요 먹이량 메모":
         st.write("feed_option 에러")
         
     # 우파루 먹이량은 wooparoo_feed.csv 파일 안에
-    feed_data = pd.read_csv("wooparoo_feed.csv")
+    feed_file = "wooparoo_feed.csv"
+    feed_data = pd.read_csv(feed_file)
     
     # 모든 숫자 데이터에 3자리마다 콤마 추가
     comma_feed_data = feed_data.applymap(lambda x: f"{int(x):,}" if isinstance(x, (int, float)) or x.isdigit() else x) 
