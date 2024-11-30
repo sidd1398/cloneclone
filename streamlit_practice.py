@@ -474,14 +474,22 @@ elif option == "필요 먹이량 메모":
         st.write("feed_option 에러")
         
     # 우파루 먹이량은 wooparoo_feed.csv 파일 안에
-    feed_file = "wooparoo_feed.csv"
-    feed_data = pd.read_csv(feed_file)
+    feed_data = pd.read_csv("wooparoo_feed.csv", header=None)
     
-    # 모든 숫자 데이터에 3자리마다 콤마 추가
-    #comma_feed_data = feed_data.applymap(lambda x: f"{int(x):,}" if isinstance(x, (int, float)) or x.isdigit() else x) 
+    # 머리말 정의
+    header = ['레벨', '1회 먹이량', '4회 먹이량', '누적 먹이량']
     
-    #st.dataframe(comma_feed_data)
-    st.dataframe(feed_data)
+    # csv 파일의 2, 3, 4열은 기본 먹이량이므로, weight을 곱해주자.
+    feed_data.iloc[:, 1:] = feed_data.iloc[:, 1:] * weight
+    
+    # 머리말을 추가하여 새로운 데이터프레임 생성
+    feed_data.columns = header
+    
+    # 3자리 단위로 콤마 추가
+    comma_feed_data = feed_data.applymap(lambda x: f"{int(x):,}"
+                                         if isinstance(x, (int, float))
+                                         else x) 
+    st.dataframe(comma_feed_data)
     
 
 
