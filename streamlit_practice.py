@@ -478,9 +478,10 @@ elif option == "필요 먹이량 메모":
     feed_data = pd.read_csv(feed_file)
     
     # 모든 숫자 데이터에 3자리마다 콤마 추가
-    comma_feed_data = feed_data.applymap(lambda x: f"{int(x):,}" if isinstance(x, (int, float)) or x.isdigit() else x) 
+    #comma_feed_data = feed_data.applymap(lambda x: f"{int(x):,}" if isinstance(x, (int, float)) or x.isdigit() else x) 
     
-    st.dataframe(comma_feed_data)
+    #st.dataframe(comma_feed_data)
+    st.dataframe(feed_data)
     
 
 
