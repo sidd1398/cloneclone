@@ -490,7 +490,13 @@ elif option == "필요 먹이량 메모":
     comma_feed_data = feed_data.applymap(lambda x: f"{int(x):,}"
                                          if isinstance(x, (int, float))
                                          else x)
-    st.table(comma_feed_data)
+    # 오른쪽 정렬 스타일 적용
+    styled_data = comma_feed_data.style.set_properties(**{
+        'text-align': 'right'
+    }).set_table_styles([
+        {'selector': 'th', 'props': [('text-align', 'right')]}  # 헤더도 오른쪽 정렬
+    ])
+    st.dataframe(styled_data)
     
 
 
