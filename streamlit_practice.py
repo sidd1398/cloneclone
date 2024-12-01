@@ -561,7 +561,7 @@ elif option == "농장 생산량 메모":
         ['먹이 말고', '물약!', '20,000', '5', '125']
     ]
     
-    farm_data.index = round(farm_data.index / 3, 0)
+    farm_data.index = farm_data.index * 0
     framed_farm_data = pd.DataFrame(farm_data[1:], columns=farm_data[0])
     styled_farm_data = framed_farm_data.style.set_properties(**{'text-align': 'right'})
     
