@@ -524,7 +524,7 @@ elif option == "농장 생산량 메모":
     framed_farm_data = pd.DataFrame(farm_data[1:], columns=farm_data[0])
     styled_farm_data = framed_farm_data.style.set_properties(**{'text-align': 'right'})
     
-    st.table(styeld_farm_data)
+    st.table(styled_farm_data)
 
 
 # In[ ]:
