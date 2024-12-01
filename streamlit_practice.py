@@ -563,7 +563,8 @@ elif option == "농장 생산량 메모":
     ]
     
     framed_farm_data = pd.DataFrame(farm_data[1:], columns=farm_data[0])
-    styled_farm_data = framed_farm_data.set_properties(**{'text-align': 'right'})
+    # streamlit dataframe은 글자는 좌측정렬, 숫자는 우측정렬, 이걸 바꿀 수는 없음
+    #styled_farm_data = framed_farm_data.style.set_properties(**{'text-align': 'right'})
     
     st.dataframe(styled_farm_data)
 
