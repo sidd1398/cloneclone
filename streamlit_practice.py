@@ -489,8 +489,10 @@ elif option == "필요 먹이량 메모":
     # 3자리 단위로 콤마 추가
     comma_feed_data = feed_data.applymap(lambda x: f"{int(x):,}"
                                          if isinstance(x, (int, float))
-                                         else x) 
-    st.table(comma_feed_data)
+                                         else x)
+    cleaned_data = comma_feed_data.reset_index(drop=True)
+
+    st.table(cleaned_data)
     
 
 
