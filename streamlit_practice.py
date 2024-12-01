@@ -274,6 +274,7 @@ elif option == "우파루 리스트":
     # 필요한 데이터만 선택
     data_to_show = data[['name', 'formatted_time', 'formatted_attrs']]
     data_to_show.columns = ['이름', '소환시간', '속성']
+    data_to_show.index = ''
     
     # 필터 추가
     checkbox_filter = st.checkbox("필터 열기", value=False)
@@ -334,7 +335,6 @@ elif option == "우파루 리스트":
             data_to_show_filtered = data_to_show[data_to_show['속성'].apply(lambda x: all(f in x for f in filters))]
             #for f in filters:      (이 코드는 필터링이 여러 개일 때 뭔가 이상하게 됨)
             #    data_to_show_filtered = data_to_show[data_to_show['속성'].apply(lambda x: f in x)]
-            data_to_show_filtered.index = data_to_show_filtered.index * 0
         
             # 필터링된 데이터 출력 (index 없이, 열너비 조정)
             st.dataframe(data_to_show_filtered, width=800)  # 전체 테이블 너비 조정 가능
