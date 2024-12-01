@@ -485,7 +485,7 @@ elif option == "필요 먹이량 메모":
     header = ['레벨', '1회 먹이량', '4회 먹이량', '누적 먹이량']
     # 머리말을 추가하여 새로운 데이터프레임 생성
     feed_data.columns = header
-    
+    '''
     # 3자리 단위로 콤마 추가
     comma_feed_data = feed_data.applymap(lambda x: f"{int(x):,}"
                                          if isinstance(x, (int, float))
@@ -495,7 +495,18 @@ elif option == "필요 먹이량 메모":
         'text-align': 'right'
     })
     st.dataframe(styled_data)
-    
+    '''
+    # 데이터프레임 스타일링
+    styled_data = feed_data.style.format({
+        '1회 먹이량': '{:,}',
+        '4회 먹이량': '{:,}',
+        '누적 먹이량': '{:,}'
+    }).set_properties(**{
+        'text-align': 'right'  # 모든 셀의 텍스트를 오른쪽 정렬
+    }).set_table_styles([
+        {'selector': 'th', 'props': [('text-align', 'right')]}  # 헤더도 오른쪽 정렬
+    ])
+    st.dataframe(styled_data)
 
 
 # In[ ]:
