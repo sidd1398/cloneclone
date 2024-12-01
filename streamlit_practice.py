@@ -476,14 +476,13 @@ elif option == "필요 먹이량 메모":
     # 우파루 먹이량은 wooparoo_feed.csv 파일 안에
     feed_data = pd.read_csv("wooparoo_feed.csv", header=None)
     
-    st.write(feed_data.shape[1])
-    
-    # 머리말 정의
-    header = ['레벨', '1회 먹이량', '4회 먹이량', '누적 먹이량']
-    
+    # csv 파일의 열 개수 보기
+    # st.write(feed_data.shape[1])
     # csv 파일의 2, 3, 4열은 기본 먹이량이므로, weight을 곱해주자.
     feed_data.iloc[:, 1:] = feed_data.iloc[:, 1:] * weight
     
+    # 머리말 정의
+    header = ['레벨', '1회 먹이량', '4회 먹이량', '누적 먹이량']
     # 머리말을 추가하여 새로운 데이터프레임 생성
     feed_data.columns = header
     
@@ -491,7 +490,7 @@ elif option == "필요 먹이량 메모":
     comma_feed_data = feed_data.applymap(lambda x: f"{int(x):,}"
                                          if isinstance(x, (int, float))
                                          else x) 
-    st.dataframe(comma_feed_data)
+    st.table(comma_feed_data)
     
 
 
