@@ -499,7 +499,7 @@ elif option == "필요 먹이량 메모":
     # 아래는 오른쪽 정렬로 보여줄 때의 코드
     # 데이터프레임 스타일링
     feed_data.index = feed_data.index + 1
-    styled_data = feed_data.style.format({
+    styled_feed_data = feed_data.style.format({
         '1회 먹이량': '{:,}',
         '4회 먹이량': '{:,}',
         '누적 먹이량': '{:,}'
@@ -508,7 +508,7 @@ elif option == "필요 먹이량 메모":
     }).set_table_styles([
         {'selector': 'th', 'props': [('text-align', 'right')]}  # 헤더도 오른쪽 정렬
     ])
-    st.dataframe(styled_data, width=400)
+    st.dataframe(styled_feed_data, width=400)
 
 ###############################################################################################
 ###############################################################################################
@@ -521,7 +521,10 @@ elif option == "농장 생산량 메모":
         [' ', ' ', '25', '110,000', '2.2']
     ]
     
-    st.table(farm_data, align='right')
+    framed_farm_data = farm_data.DataFrame(data[1:], columns=data[0])
+    styled_farm_data = framed_farm_data.style.set_properties(**{'text-align': 'right'})
+    
+    st.table(styeld_farm_data)
 
 
 # In[ ]:
