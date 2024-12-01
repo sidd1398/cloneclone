@@ -476,6 +476,8 @@ elif option == "필요 먹이량 메모":
     # 우파루 먹이량은 wooparoo_feed.csv 파일 안에
     feed_data = pd.read_csv("wooparoo_feed.csv", header=None)
     
+    st.write(feed_data.shape[1])
+    
     # 머리말 정의
     header = ['레벨', '1회 먹이량', '4회 먹이량', '누적 먹이량']
     
