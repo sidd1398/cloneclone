@@ -490,6 +490,7 @@ elif option == "필요 먹이량 메모":
     comma_feed_data = feed_data.applymap(lambda x: f"{int(x):,}"
                                          if isinstance(x, (int, float))
                                          else x)
+    comma_feed_data.index = comma_feed_data.index + 1
     st.dataframe(comma_feed_data)
 
     # 데이터프레임 스타일링
