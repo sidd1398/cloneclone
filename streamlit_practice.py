@@ -566,7 +566,7 @@ elif option == "농장 생산량 메모":
     framed_farm_data.index = framed_farm_data.index * 0
     styled_farm_data = framed_farm_data.style.set_properties(**{'text-align': 'right'})
     
-    st.table(styled_farm_data)
+    st.dataframe(styled_farm_data)
 
 
 # In[ ]:
