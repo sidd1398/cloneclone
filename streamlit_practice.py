@@ -274,7 +274,7 @@ elif option == "우파루 리스트":
     # 필요한 데이터만 선택
     data_to_show = data[['name', 'formatted_time', 'formatted_attrs']]
     data_to_show.columns = ['이름', '소환시간', '속성']
-    data_to_show.index = ''
+    data_to_show.index = 0
     
     # 필터 추가
     checkbox_filter = st.checkbox("필터 열기", value=False)
