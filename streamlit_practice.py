@@ -490,16 +490,7 @@ elif option == "필요 먹이량 메모":
     comma_feed_data = feed_data.applymap(lambda x: f"{int(x):,}"
                                          if isinstance(x, (int, float))
                                          else x)
-    # 데이터를 HTML로 변환 (인덱스 제거)
-    html_table = comma_feed_data.to_html(index=False, escape=False)
-
-    # Streamlit에 HTML 출력
-    st.markdown(f"""
-        <style>
-        table {{ margin: 0 auto; }}
-        </style>
-        {html_table}
-    """, unsafe_allow_html=True)
+    st.table(comma_feed_data)
     
 
 
