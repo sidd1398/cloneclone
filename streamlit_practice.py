@@ -334,6 +334,7 @@ elif option == "우파루 리스트":
             data_to_show_filtered = data_to_show[data_to_show['속성'].apply(lambda x: all(f in x for f in filters))]
             #for f in filters:      (이 코드는 필터링이 여러 개일 때 뭔가 이상하게 됨)
             #    data_to_show_filtered = data_to_show[data_to_show['속성'].apply(lambda x: f in x)]
+            data_to_show_filtered.index = data_to_show_filtered.index * 0
         
             # 필터링된 데이터 출력 (index 없이, 열너비 조정)
             st.dataframe(data_to_show_filtered, width=800)  # 전체 테이블 너비 조정 가능
@@ -486,24 +487,27 @@ elif option == "필요 먹이량 메모":
     # 머리말을 추가하여 새로운 데이터프레임 생성
     feed_data.columns = header
     
+    # 아래는 왼쪽 정렬로 보여줄 때의 코드
     # 3자리 단위로 콤마 추가
-    comma_feed_data = feed_data.applymap(lambda x: f"{int(x):,}"
-                                         if isinstance(x, (int, float))
-                                         else x)
-    comma_feed_data.index = comma_feed_data.index + 1
-    st.dataframe(comma_feed_data)
+    #comma_feed_data = feed_data.applymap(lambda x: f"{int(x):,}"
+    #                                     if isinstance(x, (int, float))
+    #                                     else x)
+    #comma_feed_data.index = comma_feed_data.index + 1
+    #st.dataframe(comma_feed_data)
 
+    # 아래는 오른쪽 정렬로 보여줄 때의 코드
     # 데이터프레임 스타일링
-    #styled_data = feed_data.style.format({
-    #    '1회 먹이량': '{:,}',
-    #    '4회 먹이량': '{:,}',
-    #    '누적 먹이량': '{:,}'
-    #}).set_properties(**{
-    #    'text-align': 'right'  # 모든 셀의 텍스트를 오른쪽 정렬
-    #}).set_table_styles([
-    #    {'selector': 'th', 'props': [('text-align', 'right')]}  # 헤더도 오른쪽 정렬
-    #])
-    #st.dataframe(styled_data)
+    feed_data.index = feed_data.index + 1
+    styled_data = feed_data.style.format({
+        '1회 먹이량': '{:,}',
+        '4회 먹이량': '{:,}',
+        '누적 먹이량': '{:,}'
+    }).set_properties(**{
+        'text-align': 'right'  # 모든 셀의 텍스트를 오른쪽 정렬
+    }).set_table_styles([
+        {'selector': 'th', 'props': [('text-align', 'right')]}  # 헤더도 오른쪽 정렬
+    ])
+    st.dataframe(styled_data)
 
 
 # In[ ]:
