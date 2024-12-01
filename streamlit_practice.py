@@ -507,7 +507,7 @@ elif option == "필요 먹이량 메모":
     }).set_table_styles([
         {'selector': 'th', 'props': [('text-align', 'right')]}  # 헤더도 오른쪽 정렬
     ])
-    st.dataframe(styled_data, width=700)
+    st.dataframe(styled_data, width=400)
 
 
 # In[ ]:
