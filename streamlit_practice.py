@@ -658,6 +658,10 @@ elif option == "승급 물약 메모":
     st.write("기댓값: ")
     st.write(cost_expectation)
     
+    st.write(promotion_cost)
+    st.write(promotion_level_data)
+    st.write(fum_of_option)
+    
 
 
 # In[ ]:
