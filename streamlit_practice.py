@@ -627,11 +627,15 @@ elif option == "승급 물약 메모":
     sum_of_option = 0
     for i in range(20):
         sum_of_option += promotion_option_data[i] * option_list[i]
-    cost_expectation = promotion_cost[promotion_cost_input] *            (100 / promotion_level_data[promotion_level_option]) *            (100 / sum_of_option)
+    #cost_expectation = promotion_cost[promotion_cost_input] *\
+    #        (100 / promotion_level_data[promotion_level_option]) *\
+    #        (100 / sum_of_option)
     
-    st.write("기댓값: ")
-    st.write(cost_expectation)
+    #st.write("기댓값: ")
+    #st.write(cost_expectation)
     
+    st.write(promotion_cost_input, promotion_level_option, sum_of_option)
+    st.write(type(promotion_cost_input), type(promotion_level_option), type(sum_of+option))
 
 
 # In[ ]:
