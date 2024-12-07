@@ -46,7 +46,7 @@ st.title("우파루 가상 크로스")
 option = st.selectbox(
     "모드 선택",
     ["가상 크로스", "우파루 조합 찾기", "우파루 리스트", "소환 조건 메모",
-     "필요 먹이량 메모", "농장 생산량 메모"]
+     "필요 먹이량 메모", "농장 생산량 메모", "승급 물약 메모"]
 )
 ###############################################################################################
 ###############################################################################################
@@ -498,6 +498,7 @@ elif option == "필요 먹이량 메모":
     #st.dataframe(comma_feed_data)
 
     # 아래는 오른쪽 정렬로 보여줄 때의 코드
+    # streamlit은 글자는 왼쪽 정렬, 숫자는 오른쪽 정렬로 고정. 변경 불가능한 듯
     # 데이터프레임 스타일링
     feed_data.index = feed_data.index + 1
     styled_feed_data = feed_data.style.format({
@@ -571,6 +572,66 @@ elif option == "농장 생산량 메모":
 ###############################################################################################
 ###############################################################################################
 ###############################################################################################
+elif option == "승급 물약 메모":
+    # 잠금별 소모 비용
+    promotion_cost = [5, 10, 20, 40, 80]
+    
+    # 등급별 등장 확률
+    promotion_level_data = [0.5, 1.5, 3, 10, 20, 30, 35]
+    
+    # 옵션별 등장 확률
+    promotion_option_data = [
+        7.5, 7.5, 20, 20,
+        1.55, 1.55, 1.45, 1.45, 1.45, 1.45, 1.45, 1.35, 1.35, 1.35, 1.45, 1.35, 1.35, 1.45,
+        5, 20
+    ]
+    
+    promotion_cost_input = st.radio("스킬 잠금 개수를 선택하세요.",
+                        ("0개 (5물약)", "1개 (10물약)", "2개 (20물약)", "3개 (40물약)", "4개 (80물약)"),
+                        index=0)  # index=0은 첫 번째를 기본 선택 옵션으로
+    
+    promotion_level_option = st.radio("원하는 등급을 선택하세요.",
+                        ("S", "A 이상", "B 이상", "C 이상", "D 이상", "E 이상", "F 이상"),
+                        index=0)
+    
+    st.write("원하는 옵션들을 체크하세요.")
+    st.write("(또는 조건으로 적용됩니다.)")
+    checkbox1 = st.checkbox('공격력%', value=True)
+    checkbox2 = st.checkbox('생명력%', value=True)
+    checkbox3 = st.checkbox('공격력', value=False)
+    checkbox4 = st.checkbox('생명력', value=False)
+    checkbox5 = st.checkbox('숲 스킬 파워', value=False)
+    checkbox6 = st.checkbox('땅 스킬 파워', value=False)
+    checkbox7 = st.checkbox('불 스킬 파워', value=False)
+    checkbox8 = st.checkbox('얼음 스킬 파워', value=False)
+    checkbox9 = st.checkbox('천둥 스킬 파워', value=False)
+    checkbox10 = st.checkbox('물 스킬 파워', value=False)
+    checkbox11 = st.checkbox('바람 스킬 파워', value=False)
+    checkbox12 = st.checkbox('빛 스킬 파워', value=False)
+    checkbox13 = st.checkbox('어둠 스킬 파워', value=False)
+    checkbox14 = st.checkbox('황금 스킬 파워', value=False)
+    checkbox15 = st.checkbox('매작 스킬 파워', value=False)
+    checkbox16 = st.checkbox('구름 스킬 파워', value=False)
+    checkbox17 = st.checkbox('무지개 스킬 파워', value=False)
+    checkbox18 = st.checkbox('슈거 스킬 파워', value=False)
+    checkbox19 = st.checkbox('피해 감소%', value=False)
+    checkbox20 = st.checkbox('마나볼 생산량%', value=False)
+    
+    option_list = [
+        checkbox1, checkbox2, checkbox3, checkbox4, checkbox5,
+        checkbox6, checkbox7, checkbox8, checkbox9, checkbox10,
+        checkbox11, checkbox12, checkbox13, checkbox14, checkbox15,
+        checkbox16, checkbox17, checkbox18, checkbox19, checkbox20
+    ]
+    
+    sum_of_option = 0
+    for i in range(20):
+        sum_of_option += promotion_option_data[i] * option_list[i]
+    cost_expectation = promotion_cost[promotion_cost_input] *            (100 / promotion_level_data[promotion_level_option]) *            (100 / sum_of_option)
+    
+    st.write("기댓값: ")
+    st.write(cost_expectation)
+    
 
 
 # In[ ]:
