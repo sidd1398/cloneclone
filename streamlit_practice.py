@@ -656,9 +656,9 @@ elif option == "승급 물약 메모":
     cost_expectation = promotion_cost * (100 / promotion_level_data) * (100 / sum_of_option)
     
     st.write(".")
-    st.write(".")
-    st.header("기댓값: ")
-    st.header(int(round(cost_expectation, 0)))
+    formatted_expectation = f"{int(round(cost_expectation, 0)):,}"
+    st.header(f"기댓값: {formatted_expectation}")
+    # ***** 참고 사항 *****
     # 글자 크기: 기본 텍스트 st.write, st.text는 16px
     #            st.title은 36px, st.header는 24px, st.subheader는 20px
     
