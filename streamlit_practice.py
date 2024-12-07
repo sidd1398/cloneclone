@@ -656,7 +656,7 @@ elif option == "승급 물약 메모":
     cost_expectation = promotion_cost * (100 / promotion_level_data) * (100 / sum_of_option)
     
     st.write("기댓값: ")
-    st.write(round(cost_expectation, 0))
+    st.title(round(cost_expectation, 0))
     
 
 
