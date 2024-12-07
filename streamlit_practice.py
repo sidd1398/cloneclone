@@ -11,6 +11,8 @@
   st.dataframe도 마찬가지
 2. 데이터를 pandas로 읽어들일 때 index는 필요없으면 index_col은 0로 두어 표시되지 않게 하자.
   data = pd.read_csv("wooparoo_list_data.csv", index_col=0)
+3. 글자 크기: 기본 텍스트 st.write, st.text는 16px
+              st.title은 36px, st.header는 24px, st.subheader는 20px
 '''
 
 import streamlit as st
@@ -572,7 +574,7 @@ elif option == "농장 생산량 메모":
 ###############################################################################################
 ###############################################################################################
 ###############################################################################################
-elif option == "승급 물약 메모":
+elif option == "옵션 물약 기댓값 계산":
     # 잠금별 소모 비용
     # promotion_cost = [5, 10, 20, 40, 80]
     
@@ -657,10 +659,15 @@ elif option == "승급 물약 메모":
     
     st.write(".")
     formatted_expectation = f"{int(round(cost_expectation, 0)):,}"
-    st.header(f"기댓값: {formatted_expectation}")
-    # ***** 참고 사항 *****
-    # 글자 크기: 기본 텍스트 st.write, st.text는 16px
-    #            st.title은 36px, st.header는 24px, st.subheader는 20px
+    st.header(f"기댓값: . {formatted_expectation}")
+    
+    st.write(".")
+    st.write("--- 승급 필요 물약 ---")
+    st.write("0성 -> 1성:. . 100")
+    st.write("1성 -> 2성:. 1,000")
+    st.write("2성 -> 3성:. 5,000")
+    st.write("3성 -> 4성: 15,000")
+    st.write("4성 -> 5성: 30,000")
     
 
 
