@@ -574,10 +574,10 @@ elif option == "농장 생산량 메모":
 ###############################################################################################
 elif option == "승급 물약 메모":
     # 잠금별 소모 비용
-    promotion_cost = [5, 10, 20, 40, 80]
+    # promotion_cost = [5, 10, 20, 40, 80]
     
     # 등급별 등장 확률
-    promotion_level_data = [0.5, 1.5, 3, 10, 20, 30, 35]
+    # promotion_level_data = [0.5, 1.5, 3, 10, 20, 30, 35]
     
     # 옵션별 등장 확률
     promotion_option_data = [
@@ -586,13 +586,39 @@ elif option == "승급 물약 메모":
         5, 20
     ]
     
+    # 잠금별 소모 비용
     promotion_cost_input = st.radio("스킬 잠금 개수를 선택하세요.",
                         ("0개 (5물약)", "1개 (10물약)", "2개 (20물약)", "3개 (40물약)", "4개 (80물약)"),
                         index=0)  # index=0은 첫 번째를 기본 선택 옵션으로
-    
+    if promotion_cost_input == "0개 (5물약)":
+        promotion_cost = 5
+    elif promotion_cost_input == "1개 (10물약)":
+        promotion_cost = 10
+    elif promotion_cost_input == "2개 (20물약)":
+        promotion_cost = 20
+    elif promotion_cost_input == "3개 (40물약)":
+        promotion_cost = 40
+    elif promotion_cost_input == "4개 (80물약)":
+        promotion_cost = 80
+
+    # 등급별 등장 확률
     promotion_level_option = st.radio("원하는 등급을 선택하세요.",
                         ("S", "A 이상", "B 이상", "C 이상", "D 이상", "E 이상", "F 이상"),
                         index=0)
+    if promotion_level_option == "S":
+        promotion_level_data = 0.5
+    elif promotion_level_option == "A":
+        pormotion_level_data = 1.5
+    elif promotion_level_option == "B":
+        pormotion_level_data = 3
+    elif promotion_level_option == "C":
+        pormotion_level_data = 10
+    elif promotion_level_option == "D":
+        pormotion_level_data = 20
+    elif promotion_level_option == "E":
+        pormotion_level_data = 30
+    elif promotion_level_option == "F":
+        pormotion_level_data = 35
     
     st.write("원하는 옵션들을 체크하세요.")
     st.write("(또는 조건으로 적용됩니다.)")
@@ -635,7 +661,7 @@ elif option == "승급 물약 메모":
     #st.write(cost_expectation)
     
     st.write(promotion_cost_input, promotion_level_option, sum_of_option)
-    st.write(type(promotion_cost_input), type(promotion_level_option), type(sum_of+option))
+    st.write(type(promotion_cost_input), type(promotion_level_option), type(sum_of_option))
 
 
 # In[ ]:
