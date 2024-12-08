@@ -516,7 +516,7 @@ elif option == "필요 먹이량 메모":
     st.dataframe(styled_feed_data, width=400)
     
     st.write(".")
-    st.write(f"1: {feed_data.iloc[9, 3]}:,")
+    st.write(f"1 -> 10레벨: {feed_data.iloc[9, 3]:,}")
     #st.write(f"10 -> 15레벨: {feed_data[14, 3] - feed_data[9, 3]}:,")
     #st.write(f"1 -> 15레벨: {feed_data[14, 3]}:,")
     #st.write(".")
