@@ -504,6 +504,7 @@ elif option == "필요 먹이량 메모":
     # 데이터프레임 스타일링
     feed_data.index = feed_data.index + 1
     styled_feed_data = feed_data.style.format({
+        # 3자리마다 콤마(comma)로 끊어서 보여주기
         '1회 먹이량': '{:,}',
         '4회 먹이량': '{:,}',
         '누적 먹이량': '{:,}'
@@ -513,6 +514,28 @@ elif option == "필요 먹이량 메모":
         {'selector': 'th', 'props': [('text-align', 'right')]}  # 헤더도 오른쪽 정렬
     ])
     st.dataframe(styled_feed_data, width=400)
+    
+    st.write(".")
+    st.write(f"1 -> 10레벨: {feed_data[9, 3]}:,")
+    st.write(f"10 -> 15레벨: {feed_data[14, 3] - feed_data[9, 3]}:,")
+    st.write(f"1 -> 15레벨: {feed_data[14, 3]}:,")
+    st.write(".")
+    st.write(f"15 -> 20레벨: {feed_data[19, 3] - feed_data[14, 3]}:,")
+    st.write(f"10 -> 20레벨: {feed_data[19, 3] - feed_data[9, 3]}:,")
+    st.write(f"1 -> 20레벨: {feed_data[19, 3]}:,")
+    st.write(".")
+    st.write(f"20 -> 25레벨: {feed_data[24, 3] - feed_data[19, 3]}:,")
+    st.write(f"25 -> 30레벨: {feed_data[29, 3] - feed_data[24, 3]}:,")
+    st.write(f"20 -> 30레벨: {feed_data[29, 3] - feed_data[19, 3]}:,")
+    st.write(f"1-> 30레벨: {feed_data[29, 3]}:,")
+    st.write(".")
+    st.write(f"30 -> 35레벨 {feed_data[34, 3] - feed_data[29, 3]}:,")
+    st.write(f"35 -> 40레벨 {feed_data[39, 3] - feed_data[34, 3]}:,")
+    st.write(f"30 -> 40레벨 {feed_data[39, 3] - feed_data[29, 3]}:,")
+    st.write(f"1 -> 40레벨 {feed_data[39, 3]}:,")
+    st.write(".")
+    st.write(f"40 -> 45레벨 {feed_data[44, 3] - feed_data[39, 3]}:,")
+    st.write(f"1 -> 45레벨 {feed_data[44, 3]}:,")
 
 ###############################################################################################
 ###############################################################################################
@@ -659,7 +682,7 @@ elif option == "옵션 물약 기댓값 계산":
     
     st.write(".")
     formatted_expectation = f"{int(round(cost_expectation, 0)):,}"
-    st.header(f"기댓값: . {formatted_expectation}")
+    st.header(f"기댓값 : {formatted_expectation}")
     
     st.write(".")
     st.write("--- 승급 필요 물약 ---")
