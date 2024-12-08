@@ -11,7 +11,7 @@
   st.dataframe도 마찬가지
 2. 데이터를 pandas로 읽어들일 때 index는 필요없으면 index_col은 0로 두어 표시되지 않게 하자.
   data = pd.read_csv("wooparoo_list_data.csv", index_col=0)
-3. 글자 크기: 기본 텍스트 st.write, st.text는 16px
+3. 글자 크기: 기본 텍스트 st.write, st.text는 16px (st.text는 공백 여러 칸 유지 가능)
               st.title은 36px, st.header는 24px, st.subheader는 20px
 '''
 
@@ -515,27 +515,27 @@ elif option == "필요 먹이량 메모":
     ])
     st.dataframe(styled_feed_data, width=400)
     
-    st.write(".")
-    st.text(f"1  ->  10레벨:    {feed_data.iloc[9, 3]:,}")
-    st.text(f"10  ->  15레벨:    {feed_data.iloc[14, 3] - feed_data.iloc[9, 3]:,}")
-    st.text(f"1  ->  15레벨:    {feed_data.iloc[14, 3]:,}")
-    st.write(".")
-    #st.write(f"15 -> 20레벨: {feed_data[19, 3] - feed_data[14, 3]}:,")
-    #st.write(f"10 -> 20레벨: {feed_data[19, 3] - feed_data[9, 3]}:,")
-    #st.write(f"1 -> 20레벨: {feed_data[19, 3]}:,")
-    #st.write(".")
-    #st.write(f"20 -> 25레벨: {feed_data[24, 3] - feed_data[19, 3]}:,")
-    #st.write(f"25 -> 30레벨: {feed_data[29, 3] - feed_data[24, 3]}:,")
-    #st.write(f"20 -> 30레벨: {feed_data[29, 3] - feed_data[19, 3]}:,")
-    #st.write(f"1-> 30레벨: {feed_data[29, 3]}:,")
-    #st.write(".")
-    #st.write(f"30 -> 35레벨 {feed_data[34, 3] - feed_data[29, 3]}:,")
-    #st.write(f"35 -> 40레벨 {feed_data[39, 3] - feed_data[34, 3]}:,")
-    #st.write(f"30 -> 40레벨 {feed_data[39, 3] - feed_data[29, 3]}:,")
-    #st.write(f"1 -> 40레벨 {feed_data[39, 3]}:,")
-    #st.write(".")
-    #st.write(f"40 -> 45레벨 {feed_data[44, 3] - feed_data[39, 3]}:,")
-    #st.write(f"1 -> 45레벨 {feed_data[44, 3]}:,")
+    st.text(".")
+    st.text(f" 1 -> 10레벨:    {feed_data.iloc[9, 3]:,}")
+    st.text(f"10 -> 15레벨:    {feed_data.iloc[14, 3] - feed_data.iloc[9, 3]:,}")
+    st.text(f" 1 -> 15레벨:    {feed_data.iloc[14, 3]:,}")
+    st.text(".")
+    st.text(f"15 -> 20레벨:    {feed_data.iloc[19, 3] - feed_data.iloc[14, 3]}:,")
+    st.text(f"10 -> 20레벨:    {feed_data.iloc[19, 3] - feed_data.iloc[9, 3]}:,")
+    st.text(f" 1 -> 20레벨:    {feed_data.iloc[19, 3]}:,")
+    st.text(".")
+    st.text(f"20 -> 25레벨:    {feed_data.iloc[24, 3] - feed_data.iloc[19, 3]}:,")
+    st.text(f"25 -> 30레벨:    {feed_data.iloc[29, 3] - feed_data.iloc[24, 3]}:,")
+    st.text(f"20 -> 30레벨:    {feed_data.iloc[29, 3] - feed_data.iloc[19, 3]}:,")
+    st.text(f" 1 -> 30레벨:    {feed_data.iloc[29, 3]}:,")
+    st.text(".")
+    st.text(f"30 -> 35레벨:    {feed_data.iloc[34, 3] - feed_data.iloc[29, 3]}:,")
+    st.text(f"35 -> 40레벨:    {feed_data.iloc[39, 3] - feed_data.iloc[34, 3]}:,")
+    st.text(f"30 -> 40레벨:    {feed_data.iloc[39, 3] - feed_data.iloc[29, 3]}:,")
+    st.text(f" 1 -> 40레벨:    {feed_data.iloc[39, 3]}:,")
+    st.text(".")
+    st.text(f"40 -> 45레벨:    {feed_data.iloc[44, 3] - feed_data.iloc[39, 3]}:,")
+    st.text(f" 1 -> 45레벨:    {feed_data.iloc[44, 3]}:,")
 
 ###############################################################################################
 ###############################################################################################
