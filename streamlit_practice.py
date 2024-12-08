@@ -297,32 +297,66 @@ elif option == "크로스 조합 찾기 (다중)":
                 st.stop()
             splitted_sno.append(value)
         
-        compressed_df = pd.read_csv(compressed_file, header=None, names=["left", "right", "result", "rate"])
-        # Step 1: 빈 칸 채우기 (compressed.csv)
-        compressed_df["left"] = compressed_df["left"].fillna(method="ffill")
-        compressed_df["right"] = compressed_df["right"].fillna(method="ffill")
-        compressed_df["result"] = compressed_df["result"].fillna(method="ffill")
-        compressed_df["rate"] = compressed_df["rate"].fillna(method="ffill")
+        # 결과를 저장할 배열
+        all_pairs = []
+        
+        # compressed_file을 열어서 한 행씩 검증
+        with open(compressed_file, "r", encoding="utf-8") as file:
+            reader = csv.reader(file)
+            next(reader)  # 헤더 건너뛰기
 
-        # Step 2: splitted_sno 값이 result로 출력될 수 있는 [left, right] 조합 찾기
-        # 가능한 [left, right] 조합과 그 조합의 결과들 매핑
-        pair_to_results = {}
+            # 이전 행의 데이터를 저장할 변수 (compressed 파일의 빈 칸을 처리하기 위함)
+            prev_left, prev_right, prev_rate = None, None, None
+            # 동일한 [left, right] 조합에서 splitted_sno에 속하는 모든 rate의 합
+            rate_sum = 0
+            # 동일한 [left, right] 조합의 result 목록은 splitted_sno에 속한 요소를 몇 개나 포함하고 있는지
+            result_number = 0
+            # 원하던 [left, right] 조합이면 True가 됨
+            passing = False
 
-        # compressed.csv에서 각 [left, right] 조합의 결과를 저장
-        for _, row in compressed_df.iterrows():
-            left, right, result = row["left"], row["right"], row["result"]
-            pair = (left, right)
-            if pair not in pair_to_results:
-                pair_to_results[pair] = set()  # 새로 추가된 조합
-            pair_to_results[pair].add(result)  # 결과를 해당 조합에 추가
+            # 파일의 각 행을 처리
+            for row in reader:
+                # 읽어들인 행에 left, right가 둘 다 빈 칸이면 이전과 동일한 [left, right] 조합임
+                is_empty_data = True
+                # 빈 칸 있으면 이전 행 참조해서 메꾸기
+                if row[0]:
+                    left = row[0]
+                    is_empty_data = False
+                else:
+                    left = prev_left
+                if row[1]:
+                    right = row[1]
+                    is_empty_data = False
+                else:
+                    right = prev_right
+                result = row[2]
+                rate   = row[3] if row[3] else prev_rate
+                
+                # 새로운 [left, right] 조합을 읽기 시작하면 매개변수 초기화
+                if is_empty_data == False:
+                    rate_sum = 0
+                    result_number = 0
+                    passing = False
+                
+                if result in splitted_sno:
+                    rate_sum += rate
+                    result_number += 1
+                
+                # 이번 [left, right] 조합이 splitted_sno를 모두 뽑을 수 있는 조합이라면, 이 조합을 선택
+                if result_number == len(splitted_sno) and passing == False:
+                    all_pairs.append([left, right, rate_sum])
+                    passing = True
+                if result_number > len(splitted_sno):
+                    st.write(f"{left}와 {right} 조합에서 오버플로우 발생")
+                    st.stop()
+                
+                
+                    
+                
 
-        # splitted_sno의 모든 값을 포함하는 [left, right] 조합만 선택
-        valid_pairs = [
-            pair for pair, results in pair_to_results.items()
-            if set(splitted_sno).issubset(results)
-        ]
+                
             
-        st.write(valid_pairs)
+        st.write(all_pairs)
         
 ###############################################################################################
 ###############################################################################################
