@@ -297,7 +297,7 @@ elif option == "크로스 조합 찾기 (다중)":
                 st.stop()
             splitted_sno.append(value)
         
-        compressed_df = pd.read_csv("compressed.csv", header=None, names=["left", "right", "result", "rate"])
+        compressed_df = pd.read_csv(compressed_file, header=None, names=["left", "right", "result", "rate"])
         # Step 1: 빈 칸 채우기 (compressed.csv)
         compressed_df["left"] = compressed_df["left"].fillna(method="ffill")
         compressed_df["right"] = compressed_df["right"].fillna(method="ffill")
