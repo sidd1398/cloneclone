@@ -305,13 +305,24 @@ elif option == "크로스 조합 찾기 (다중)":
         compressed_df["rate"] = compressed_df["rate"].fillna(method="ffill")
 
         # Step 2: splitted_sno 값이 result로 출력될 수 있는 [left, right] 조합 찾기
-        all_pairs = set()  # 모든 [left, right] 조합 저장
-        for sno in splitted_sno:
-            matching_rows = compressed_df[compressed_df["result"] == sno]
-            pairs = set(zip(matching_rows["left"], matching_rows["right"]))
-            all_pairs.update(pairs)  # 중복을 제거하며 [left, right] 추가
+        # 가능한 [left, right] 조합과 그 조합의 결과들 매핑
+        pair_to_results = {}
+
+        # compressed.csv에서 각 [left, right] 조합의 결과를 저장
+        for _, row in compressed_df.iterrows():
+            left, right, result = row["left"], row["right"], row["result"]
+            pair = (left, right)
+            if pair not in pair_to_results:
+                pair_to_results[pair] = set()  # 새로 추가된 조합
+            pair_to_results[pair].add(result)  # 결과를 해당 조합에 추가
+
+        # splitted_sno의 모든 값을 포함하는 [left, right] 조합만 선택
+        valid_pairs = [
+            pair for pair, results in pair_to_results.items()
+            if set(splitted_sno).issubset(results)
+        ]
             
-        st.write(all_pairs)
+        st.write(valid_pairs)
         
 ###############################################################################################
 ###############################################################################################
