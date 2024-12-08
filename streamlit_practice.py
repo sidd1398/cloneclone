@@ -106,7 +106,7 @@ if option == "가상 크로스":
 
                         # left_name과 right_name이 일치하는지 확인
                         if left == left_sno and right == right_sno:
-                            st.write(f"1회 크로스 시간 기댓값: {float(expected_time):.2f}시간")
+                            st.text(f"1회 크로스 시간 기댓값:  {float(expected_time):.2f}시간")
                             found = True
                             break
                     # 해당 조합이 없는 경우 메시지 출력
@@ -244,9 +244,9 @@ elif option == "우파루 조합 찾기":
                             found = True
                     
                     if found:
-                        st.write("확률 %:    이 조합에서 원하는 우파루가 나올 확률")
-                        st.write("cross:    원하는 우파루를 얻기 위해 필요한 \"크로스 횟수\"의 기댓값")
-                        st.write("get_time:    원하는 우파루 1마리가 나올 때까지 \"걸리는 시간\"의 기댓값")
+                        st.text("확률 %:    이 조합에서 원하는 우파루가 나올 확률")
+                        st.text("cross:     원하는 우파루를 얻기 위해 필요한 \"크로스 횟수\"의 기댓값")
+                        st.text("get_time:  원하는 우파루 1마리가 나올 때까지 \"걸리는 시간\"의 기댓값")
                         df = pd.DataFrame(results, columns=["왼쪽","오른쪽", "확률 %", "cross", "get_time"])
                         df.index = df.index + 1  # 행 번호를 1부터 시작하도록 설정
                         st.table(df)
