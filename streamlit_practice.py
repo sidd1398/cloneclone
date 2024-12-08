@@ -320,17 +320,17 @@ elif option == "크로스 조합 찾기 (다중)":
                 is_empty_data = True
                 # 빈 칸 있으면 이전 행 참조해서 메꾸기
                 if row[0]:
-                    left = row[0]
+                    left = int(row[0])
                     is_empty_data = False
                 else:
                     left = prev_left
                 if row[1]:
-                    right = row[1]
+                    right = int(row[1])
                     is_empty_data = False
                 else:
                     right = prev_right
-                result = row[2]
-                rate   = row[3] if row[3] else prev_rate
+                result = int(row[2])
+                rate   = float(row[3]) if row[3] else prev_rate
                 
                 # 새로운 [left, right] 조합을 읽기 시작하면 매개변수 초기화
                 if is_empty_data == False:
