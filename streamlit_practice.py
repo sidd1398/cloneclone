@@ -293,12 +293,25 @@ elif option == "크로스 조합 찾기 (다중)":
         for name in splitted_name:
             value = name_to_sno_dict.get(name, None)
             if value is None:
-                print(f"'{name}'는 존재하기 않습니다.")
+                st.write(f"'{name}'는 존재하지 않습니다.")
                 st.stop()
             splitted_sno.append(value)
         
-        for i in splitted_sno:
-            st.write(i)
+        compressed_df = pd.read_csv("compressed.csv", header=None, names=["left", "right", "result", "rate"])
+        # Step 1: 빈 칸 채우기 (compressed.csv)
+        compressed_df["left"] = compressed_df["left"].fillna(method="ffill")
+        compressed_df["right"] = compressed_df["right"].fillna(method="ffill")
+        compressed_df["result"] = compressed_df["result"].fillna(method="ffill")
+        compressed_df["rate"] = compressed_df["rate"].fillna(method="ffill")
+
+        # Step 2: splitted_sno 값이 result로 출력될 수 있는 [left, right] 조합 찾기
+        all_pairs = set()  # 모든 [left, right] 조합 저장
+        for sno in splitted_sno:
+            matching_rows = compressed_df[compressed_df["result"] == sno]
+            pairs = set(zip(matching_rows["left"], matching_rows["right"]))
+            all_pairs.update(pairs)  # 중복을 제거하며 [left, right] 추가
+            
+        st.write(all_pairs)
         
 ###############################################################################################
 ###############################################################################################
