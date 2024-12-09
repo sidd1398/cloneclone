@@ -14,6 +14,7 @@
 3. 글자 크기: 기본 텍스트 st.write, st.text는 16px
               (st.write 글씨체가 더 둥글둥글, st.text는 공백 여러 칸 유지 가능)
               st.title은 36px, st.header는 24px, st.subheader는 20px
+4. csv 파일의 데이터 읽을 때는 str 타입. 자꾸 int, float으로 생각해서 실수함.
 '''
 
 import streamlit as st
@@ -36,6 +37,7 @@ with open("wooparoo_list_data.csv", "r", encoding="utf-8") as name_file:
     reader = csv.reader(name_file)
     next(reader)  # 헤더 건너뛰기 -> 필수!!
     for row in reader:
+        # ***** row로 읽어들인 데이터들은 모두 str 취급되는 점 주의 *****
         sno, name, time, prop, attrs = row
         name_to_sno_dict[name] = sno
         sno_to_name_dict[sno] = name
@@ -260,8 +262,9 @@ elif option == "크로스 조합 찾기 (단일)":
 ###############################################################################################
 ###############################################################################################
 elif option == "크로스 조합 찾기 (다중)":
-    st.header("개발 중...")
-elif option == "dd":
+#    st.header("개발 중...")
+#elif option == "dd":
+    st.subheader("***** 결과값 도출까지 수 초에서 1분 정도 걸릴 수 있습니다. *****")
     cross_option = st.radio("크로스 옵션",
                         ("일반크로스", "매직크로스 행운업", "매크행업+이벤트"),
                         index=0)  # index=0은 첫 번째를 기본 선택 옵션으로
@@ -286,7 +289,8 @@ elif option == "dd":
             st.write("cross_option 오류")
             st.stop()
             
-        # 콤마를 기준으로 이름 목록 쪼개기
+        ####################################################################################
+        # 1단계: 콤마를 기준으로 이름 목록 쪼개기
         splitted_name = [name.strip() for name in name_list.split(",")]
         
         # name을 sno로 치환하고, 올바르지 않은 이름이 존재할 경우, 알림 후 동작 중단
@@ -298,9 +302,14 @@ elif option == "dd":
                 st.stop()
             splitted_sno.append(value)
         
-        # 결과를 저장할 배열
-        all_pairs = []
+        ####################################################################################
+        # 2단계: compressed_file 열고 splitted_sno에 속한 우파루가 모두 나올 수 있는 조합 찾기
+        st.write(name_list)
+        st.write("선택된 우파루가 모두 나올 수 있는 조합 검색 중...")
         
+        # 결과를 저장할 배열
+        # 최종적으로 [left, right, rate_sum, wooparoo_get_time] 형식
+        all_pairs = []
         # compressed_file을 열어서 한 행씩 검증
         with open(compressed_file, "r", encoding="utf-8") as file:
             reader = csv.reader(file)
@@ -312,7 +321,7 @@ elif option == "dd":
             rate_sum = 0
             # 동일한 [left, right] 조합의 result 목록은 splitted_sno에 속한 요소를 몇 개나 포함하고 있는지
             result_number = 0
-            # 원하던 [left, right] 조합이면 True가 됨
+            # 원하던 [left, right] 조합이면 True가 되고, 이번 [left, right] 조합 데이터를 빠르게 넘기기 위한 목적
             passing = False
 
             # 파일의 각 행을 처리
@@ -333,31 +342,98 @@ elif option == "dd":
                 result = int(row[2])
                 rate   = float(row[3]) if row[3] else prev_rate
                 
+                prev_left, prev_right, prev_rate = left, right, rate
+                
                 # 새로운 [left, right] 조합을 읽기 시작하면 매개변수 초기화
                 if is_empty_data == False:
                     rate_sum = 0
                     result_number = 0
                     passing = False
                 
-                if result in splitted_sno:
+                # splitted_sno는 str 타입의 배열이므로, str() 필수!!
+                if str(result) in splitted_sno:
                     rate_sum += rate
                     result_number += 1
                 
                 # 이번 [left, right] 조합이 splitted_sno를 모두 뽑을 수 있는 조합이라면, 이 조합을 선택
                 if result_number == len(splitted_sno) and passing == False:
-                    all_pairs.append([left, right, rate_sum])
+                    all_pairs.append([left, right, round(rate_sum, 2)])
                     passing = True
                 if result_number > len(splitted_sno):
                     st.write(f"{left}와 {right} 조합에서 오버플로우 발생")
                     st.stop()
-                
-                
-                    
-                
-
-                
+        
+        length_of_all_pairs = len(all_pairs)
+        if length_of_all_pairs == 0:
+            st.write("선택된 우파루가 모두 나올 수 있는 조합이 없습니다.")
+            st.stop()
             
-        st.write(all_pairs)
+        ####################################################################################
+        # 3단계: expected_file 열고 각 조합별로 wooparoo_get_time 가져오기
+        st.write("각 조합별로 get_time 연산 중...")
+        
+        # all_pairs의 몇 번째 요소를 찾아볼 것인지 뜻하는 포인터
+        # all_pairs와 expected_file 모두 left, right 오름차순이므로, all_pairs의 순서대로 찾는 게 가능
+        pointer_of_all_pairs = 0
+        # expected_file을 열어서 all_pairs에 expected_time을 추가
+        with open(expected_file, "r", encoding="utf-8") as file:
+            reader = csv.reader(file)
+            next(reader)  # 헤더 건너뛰기
+
+            for row in reader:
+                left, right, expected_time = row
+                # all_pairs의 [left, right] 조합을 expected_file로부터 찾은 경우, expected_time을 추가
+                # row로 읽은 건 str이니까 int() 잊지 말기
+                if int(left) == all_pairs[pointer_of_all_pairs][0]:
+                    if int(right) == all_pairs[pointer_of_all_pairs][1]:
+                        # wooparoo_get_time = 1회크로스시간기댓값 * 필요한크로스횟수기댓값
+                        # 필요한크로스횟수기댓값 = 100 / rate_sum (rate_sum: 원하는 우파루 하나 등장할 확률)
+                        wooparoo_get_time = float(expected_time) * (100 / all_pairs[pointer_of_all_pairs][2])
+                        all_pairs[pointer_of_all_pairs].append(round(wooparoo_get_time, 4))
+                        pointer_of_all_pairs += 1
+                # 찾을 거 다 찾았으면 바로 파일 빠져나오자.
+                if pointer_of_all_pairs == length_of_all_pairs:
+                    break
+            # 현재 all_pairs는 [left, right, rate_sum, wooparoo_get_time]로 완성
+
+        ####################################################################################
+        # 4단계: 추천 조합 50가지까지 선정
+        st.write("추천 조합 50가지 선정 중...")
+        
+        # 50가지까지 담고 보여줄 배열. [left, right, rate_sum, cross_times, wooparoo_get_time] 형식
+        recommend_pairs = []
+        # 현재 recommend_pairs에 담은 [left, right] 조합의 목록들
+        # [left, right]와 [right, left] 순서만 뒤바뀐 조합은 둘 중 나은 조합만 남기기에 사용
+        used_pairs = set()
+
+        # all_pairs_를 wooparoo_get_time을 기준으로 오름차순, 차순위로 rate_sum으로 내림차순 정렬
+        sorted_all_pairs = sorted(all_pairs, key=lambda x: (x[3], -x[2]))
+
+        # 50가지 선정하러 sorted_all_pairs 둘러보기
+        for pairs in sorted_all_pairs:
+            # left == right인 복사 조합은 패스
+            if pairs[0] == pairs[1]:
+                continue
+
+            # [left, right]와 [right, left] 순서만 뒤바뀐 조합은 둘 중 나은 조합만 남기기
+            if (pairs[0], pairs[1]) in used_pairs or (pairs[1], pairs[0]) in used_pairs:
+                continue
+
+            # 적합한 조합이면 recomment_pairs에 저장
+            left = sno_to_name_dict.get(str(pairs[0]), "Unknown")
+            right = sno_to_name_dict.get(str(pairs[1]), "Unknown")
+            recommend_pairs.append([left, right, pairs[2], round(100 / pairs[2], 4), pairs[3]])
+                                  # left, right, rate_sum, cross_times, woopparoo_get_time
+            used_pairs.add((pairs[0], pairs[1]))
+
+            # 50개까지만 담기
+            if len(recommend_pairs) == 50:
+                break
+
+        st.write("추천 조합은 아래와 같습니다.")
+        df = pd.DataFrame(recommend_pairs, columns=["왼쪽","오른쪽", "확률 %", "cross", "get_time"])
+        df.index = df.index + 1  # 행 번호를 1부터 시작하도록 설정
+        st.table(df)
         
 ###############################################################################################
 ###############################################################################################
@@ -454,7 +530,15 @@ elif option == "우파루 리스트":
 ###############################################################################################
 ###############################################################################################
 elif option == "소환 조건 메모":
-    st.text("--- 크로스 참고 사항 ---")
+    st.subheader("--- FAQ ---")
+    st.text("Q. 쉐도우는 왜 조합이 없나요?")
+    st.text("A. 레이와 쉐도우는 조합이 동일하고 크로스 시간에 따라서만 다르게 등장합니다.")
+    st.text("   이 사이트의 데이터베이스는 오전 9시를 기준으로 두고 있으므로,")
+    st.text("   쉐도우의 조합은 레이의 조합으로 검색하시면 됩니다.")
+    st.text(" ")
+    st.text(" ")
+    st.text(" ")
+    st.subheader("--- 크로스 참고 사항 ---")
     st.text("1. 양쪽 우파루 모두 10레벨 이상으로 크로스해야 온전한 확률을 얻습니다.")
     st.text("1-1. 우파루 레벨이 10 미만이라면, 한정, 별속성과 같은 고급 우파루의 등장 확률이 낮아집니다.")
     st.text("1-2. 11레벨 이상 우파루끼리 조합 시, 클라우처럼 신성 우파루의 등장 가능성이 생깁니다. 취향에 따라 결정하시면 됩니다.")
@@ -477,7 +561,7 @@ elif option == "소환 조건 메모":
     st.text(" ")
     st.text(" ")
     st.text(" ")
-    st.text("--- 별속성(상시) 소환 조건 ---")
+    st.subheader("--- 별속성(상시) 소환 조건 ---")
     st.text("레이(2.5%, 36시간):   물 혹은 바람 포함 4속성 이상, 레어 미포함 (9:00 ~ 20:59)")
     st.text("쉐도우(2.5%, 36시간): 물 혹은 바람 포함 4속성 이상, 레어 미포함 (21:00 ~ 08:59)")
     st.text("    (팁: 레이, 쉐도우는 물, 천둥, 바람, 얼음을 모두 섞을 시 확률 2배(5%))")
@@ -500,12 +584,12 @@ elif option == "소환 조건 메모":
     st.text(" ")
     st.text(" ")
     st.text(" ")
-    st.text("--- 특수 우파루 소환 조건 ---")
+    st.subheader("--- 특수 우파루 소환 조건 ---")
     st.text("러브럽(5%, 10시간 30분): 초코럽 + 코코럽 조합에서만")
     st.text(" ")
     st.text(" ")
     st.text(" ")
-    st.text("--- 신성 진화에 필요한 마법석 개수 ---")
+    st.subheader("--- 신성 진화에 필요한 마법석 개수 ---")
     st.text("(순서대로 숲, 땅, 불, 얼음, 번개, 물, 바람, 매직, 별 마법석 개수)")
     st.text("빛:     홀리 -> 세인트 -> 엔젤")
     st.text("세인트: 1, 1, 1, 1, 1, 1, 1, 1, 1")
@@ -532,7 +616,7 @@ elif option == "소환 조건 메모":
     st.text(" ")
     st.text(" ")
     st.text(" ")
-    st.text("--- 루루 마법 진화에서의 마법석 ---")
+    st.subheader("--- 루루 마법 진화에서의 마법석 ---")
     st.text("기본 진화확률: 10%")
     st.text("진화 성공 시 등장 확률: 실비아 3%, 루나실 3%, 미쉘 3%, 네로: 91%")
     st.text("마법석을 주어 진화확률이 최소 30% 이상이 되어야 진화 시도가 가능합니다.")
