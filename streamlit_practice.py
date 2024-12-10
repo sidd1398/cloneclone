@@ -789,13 +789,7 @@ elif option == "농장 생산량 메모":
 ###############################################################################################
 ###############################################################################################
 ###############################################################################################
-elif option == "옵션 물약 기댓값 계산":
-    # 잠금별 소모 비용
-    # promotion_cost = [5, 10, 20, 40, 80]
-    
-    # 등급별 등장 확률
-    # promotion_level_data = [0.5, 1.5, 3, 10, 20, 30, 35]
-    
+elif option == "옵션 물약 기댓값 계산":    
     # 옵션별 등장 확률
     promotion_option_data = [
         7.5, 7.5, 20, 20,
@@ -839,6 +833,7 @@ elif option == "옵션 물약 기댓값 계산":
         promotion_cost = 80
 
     # 등급별 등장 확률
+    # promotion_level_data = [0.5, 1.5, 3, 10, 20, 30, 35]
     promotion_level_option = st.radio("원하는 등급을 선택하세요.",
                         ("S", "A 이상", "B 이상", "C 이상", "D 이상", "E 이상", "F 이상"),
                         index=0)
@@ -859,26 +854,26 @@ elif option == "옵션 물약 기댓값 계산":
     
     st.write("원하는 옵션들을 체크하세요.")
     st.write("(또는 조건으로 적용됩니다.)")
-    checkbox1 = st.checkbox('공격력%', value=True)
-    checkbox2 = st.checkbox('생명력%', value=True)
-    checkbox3 = st.checkbox('공격력', value=False)
-    checkbox4 = st.checkbox('생명력', value=False)
-    checkbox5 = st.checkbox('숲 스킬 파워', value=False)
-    checkbox6 = st.checkbox('땅 스킬 파워', value=False)
-    checkbox7 = st.checkbox('불 스킬 파워', value=False)
-    checkbox8 = st.checkbox('얼음 스킬 파워', value=False)
-    checkbox9 = st.checkbox('천둥 스킬 파워', value=False)
-    checkbox10 = st.checkbox('물 스킬 파워', value=False)
-    checkbox11 = st.checkbox('바람 스킬 파워', value=False)
-    checkbox12 = st.checkbox('빛 스킬 파워', value=False)
-    checkbox13 = st.checkbox('어둠 스킬 파워', value=False)
-    checkbox14 = st.checkbox('황금 스킬 파워', value=False)
-    checkbox15 = st.checkbox('매작 스킬 파워', value=False)
-    checkbox16 = st.checkbox('구름 스킬 파워', value=False)
-    checkbox17 = st.checkbox('무지개 스킬 파워', value=False)
-    checkbox18 = st.checkbox('슈거 스킬 파워', value=False)
-    checkbox19 = st.checkbox('피해 감소%', value=False)
-    checkbox20 = st.checkbox('마나볼 생산량%', value=False)
+    checkbox1 = st.checkbox('공격력%: 7.5%', value=True)
+    checkbox2 = st.checkbox('생명력%: 7.5%', value=True)
+    checkbox3 = st.checkbox('공격력: 20%', value=False)
+    checkbox4 = st.checkbox('생명력: 20%', value=False)
+    checkbox5 = st.checkbox('숲 스킬 파워: 1.55%', value=False)
+    checkbox6 = st.checkbox('땅 스킬 파워: 1.55%', value=False)
+    checkbox7 = st.checkbox('불 스킬 파워: 1.45%', value=False)
+    checkbox8 = st.checkbox('얼음 스킬 파워: 1.45%', value=False)
+    checkbox9 = st.checkbox('천둥 스킬 파워: 1.45%', value=False)
+    checkbox10 = st.checkbox('물 스킬 파워: 1.45%', value=False)
+    checkbox11 = st.checkbox('바람 스킬 파워: 1.45%', value=False)
+    checkbox12 = st.checkbox('빛 스킬 파워: 1.35%', value=False)
+    checkbox13 = st.checkbox('어둠 스킬 파워: 1.35%', value=False)
+    checkbox14 = st.checkbox('황금 스킬 파워: 1.35%', value=False)
+    checkbox15 = st.checkbox('매직 스킬 파워: 1.45%', value=False)
+    checkbox16 = st.checkbox('구름 스킬 파워: 1.35%', value=False)
+    checkbox17 = st.checkbox('무지개 스킬 파워: 1.35%', value=False)
+    checkbox18 = st.checkbox('슈거 스킬 파워: 1.45%', value=False)
+    checkbox19 = st.checkbox('피해 감소%: 5%', value=False)
+    checkbox20 = st.checkbox('마나볼 생산량%: 20%', value=False)
     
     option_list = [
         checkbox1, checkbox2, checkbox3, checkbox4, checkbox5,
@@ -890,20 +885,32 @@ elif option == "옵션 물약 기댓값 계산":
     sum_of_option = 0
     for i in range(20):
         sum_of_option += promotion_option_data[i] * option_list[i]
-    cost_expectation = promotion_cost / (roulette_number - locked_roulette) * (100 / promotion_level_data) * (100 / sum_of_option)
+    cost_expectation = (promotion_cost / (roulette_number - locked_roulette) * 
+                        (100 / promotion_level_data) * (100 / sum_of_option))
     
     st.text("")
     formatted_expectation = f"{int(round(cost_expectation, 0)):,}"
     st.header(f"기댓값 : {formatted_expectation}")
     
     st.text(" ")
-    st.text("--- 승급 필요 물약 ---")
+    st.write("--- 승급 필요 물약 ---")
     st.text("0성 -> 1성:    100")
     st.text("1성 -> 2성:  1,000")
     st.text("2성 -> 3성:  5,000")
     st.text("3성 -> 4성: 15,000")
     st.text("4성 -> 5성: 30,000")
-    
+    st.text(" ")
+    st.write("--- 기댓값 계산 공식 ---")
+    st.write("기댓값 = (1회당 물약 개수) / (우파루 별 개수 - 잠긴 룰렛 개수) * (100 / 등장 등급 확률[%]) * (100 / 옵션특성 등장 확률 합[%])")
+    st.text(" ")
+    st.write("--- 등장 등급 확률 ---")
+    st.write("S등급: 0.5%")
+    st.write("A등급: 1.5%, A등급 이상: 2%")
+    st.write("B등급: 3%, B등급 이상: 5%")
+    st.write("C등급: 10%, C등급 이상: 15%")
+    st.write("D등급: 20%, D등급 이상: 35%")
+    st.write("E등급: 30%, E등급 이상: 65%")
+    st.write("F등급: 35%, F등급 이상: 100%")
 
 
 # In[ ]:
