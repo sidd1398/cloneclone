@@ -890,9 +890,9 @@ elif option == "옵션 물약 기댓값 계산":
     if sum_of_option == 0:
         st.header("옵션을 선택해주세요.")
     elif (roulette_number - locked_roulette) == 0:
-        st.header("우파루의 모든 옵션이 잠금 설정 되었습니다.")
+        st.subheader("우파루의 모든 옵션이 잠금 설정 되었습니다.")
     elif (roulette_number - locked_roulette) < 0:
-        st.header("우파루가 가진 옵션 개수보다 많은 옵션이 잠금 설정 되었습니다.")
+        st.subheader("우파루가 가진 옵션 개수보다 많은 옵션이 잠금 설정 되었습니다.")
     else:
         cost_expectation = (promotion_cost / (roulette_number - locked_roulette) * 
                             (100 / promotion_level_data) * (100 / sum_of_option))
