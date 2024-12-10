@@ -887,7 +887,7 @@ elif option == "옵션 물약 기댓값 계산":
         sum_of_option += promotion_option_data[i] * option_list[i]
     
     st.text(" ")
-    if sum_of_option = 0:
+    if sum_of_option == 0:
         st.write("옵션을 선택해주세요.")
     else:
         cost_expectation = (promotion_cost / (roulette_number - locked_roulette) * 
