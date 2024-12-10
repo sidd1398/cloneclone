@@ -885,12 +885,15 @@ elif option == "옵션 물약 기댓값 계산":
     sum_of_option = 0
     for i in range(20):
         sum_of_option += promotion_option_data[i] * option_list[i]
-    cost_expectation = (promotion_cost / (roulette_number - locked_roulette) * 
-                        (100 / promotion_level_data) * (100 / sum_of_option))
     
-    st.text("")
-    formatted_expectation = f"{int(round(cost_expectation, 0)):,}"
-    st.header(f"기댓값 : {formatted_expectation}")
+    st.text(" ")
+    if sum_of_option = 0:
+        st.write("옵션을 선택해주세요.")
+    else:
+        cost_expectation = (promotion_cost / (roulette_number - locked_roulette) * 
+                            (100 / promotion_level_data) * (100 / sum_of_option))
+        formatted_expectation = f"{int(round(cost_expectation, 0)):,}"
+        st.header(f"기댓값 : {formatted_expectation}")
     
     st.text(" ")
     st.write("--- 승급 필요 물약 ---")
@@ -901,9 +904,9 @@ elif option == "옵션 물약 기댓값 계산":
     st.text("4성 -> 5성: 30,000")
     st.text(" ")
     st.write("--- 기댓값 계산 공식 ---")
-    st.write("기댓값 = (1회당 물약 개수) / (우파루 별 개수 - 잠긴 룰렛 개수) * (100 / 등장 등급 확률[%]) * (100 / 옵션특성 등장 확률 합[%])")
+    st.write("기댓값 = (1회당 물약 개수) / (우파루 별 개수 - 스킬 잠금 개수) * (100 / 등급 등장 확률[%]) * (100 / 옵션특성 등장 확률 합[%])")
     st.text(" ")
-    st.write("--- 등장 등급 확률 ---")
+    st.write("--- 등급 등장 확률 ---")
     st.write("S등급: 0.5%")
     st.write("A등급: 1.5%, A등급 이상: 2%")
     st.write("B등급: 3%, B등급 이상: 5%")
