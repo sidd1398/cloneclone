@@ -890,8 +890,7 @@ elif option == "옵션 물약 기댓값 계산":
     sum_of_option = 0
     for i in range(20):
         sum_of_option += promotion_option_data[i] * option_list[i]
-    cost_expectation = promotion_cost / (roulette_number - locked_roulette) \ 
-                       * (100 / promotion_level_data) * (100 / sum_of_option)
+    cost_expectation = promotion_cost / (roulette_number - locked_roulette) * (100 / promotion_level_data) * (100 / sum_of_option)
     
     st.text("")
     formatted_expectation = f"{int(round(cost_expectation, 0)):,}"
