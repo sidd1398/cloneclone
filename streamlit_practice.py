@@ -845,17 +845,17 @@ elif option == "옵션 물약 기댓값 계산":
     if promotion_level_option == "S":
         promotion_level_data = 0.5
     elif promotion_level_option == "A":
-        pormotion_level_data = 1.5
+        promotion_level_data = 1.5
     elif promotion_level_option == "B":
-        pormotion_level_data = 3
+        promotion_level_data = 3
     elif promotion_level_option == "C":
-        pormotion_level_data = 10
+        promotion_level_data = 10
     elif promotion_level_option == "D":
-        pormotion_level_data = 20
+        promotion_level_data = 20
     elif promotion_level_option == "E":
-        pormotion_level_data = 30
+        promotion_level_data = 30
     elif promotion_level_option == "F":
-        pormotion_level_data = 35
+        promotion_level_data = 35
     
     st.write("원하는 옵션들을 체크하세요.")
     st.write("(또는 조건으로 적용됩니다.)")
