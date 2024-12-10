@@ -803,19 +803,39 @@ elif option == "옵션 물약 기댓값 계산":
         5, 20
     ]
     
+    # 우파루 별 개수
+    wooparoo_stars_input = st.radio("우파루의 별 개수를 선택하세요.",
+                        ("1성", "2성", "3성", "4성", "5성"),
+                        index=4)
+    if wooparoo_stars_input == "1성":
+        roulette_number = 1
+    elif wooparoo_stars_input == "2성":
+        roulette_number = 2
+    elif wooparoo_stars_input == "3성":
+        roulette_number = 3
+    elif wooparoo_stars_input == "4성":
+        roulette_number = 4
+    elif wooparoo_stars_input == "5성":
+        roulette_number = 5
+    
     # 잠금별 소모 비용
     promotion_cost_input = st.radio("스킬 잠금 개수를 선택하세요.",
                         ("0개 (5물약)", "1개 (10물약)", "2개 (20물약)", "3개 (40물약)", "4개 (80물약)"),
                         index=0)  # index=0은 첫 번째를 기본 선택 옵션으로
     if promotion_cost_input == "0개 (5물약)":
+        locked_roulette = 0
         promotion_cost = 5
     elif promotion_cost_input == "1개 (10물약)":
+        locked_roulette = 1
         promotion_cost = 10
     elif promotion_cost_input == "2개 (20물약)":
+        locked_roulette = 2
         promotion_cost = 20
     elif promotion_cost_input == "3개 (40물약)":
+        locked_roulette = 3
         promotion_cost = 40
     elif promotion_cost_input == "4개 (80물약)":
+        locked_roulette = 4
         promotion_cost = 80
 
     # 등급별 등장 확률
@@ -870,7 +890,8 @@ elif option == "옵션 물약 기댓값 계산":
     sum_of_option = 0
     for i in range(20):
         sum_of_option += promotion_option_data[i] * option_list[i]
-    cost_expectation = promotion_cost * (100 / promotion_level_data) * (100 / sum_of_option)
+    cost_expectation = promotion_cost / (roulette_number - locked_roulette) \ 
+                       * (100 / promotion_level_data) * (100 / sum_of_option)
     
     st.text("")
     formatted_expectation = f"{int(round(cost_expectation, 0)):,}"
