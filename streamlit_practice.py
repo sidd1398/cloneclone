@@ -813,7 +813,7 @@ elif option == "옵션 물약 기댓값 계산":
         roulette_number = 5
     
     # 잠금별 소모 비용
-    promotion_cost_input = st.radio("스킬 잠금 개수를 선택하세요.",
+    promotion_cost_input = st.radio("옵션 잠금 개수를 선택하세요.",
                         ("0개 (5물약)", "1개 (10물약)", "2개 (20물약)", "3개 (40물약)", "4개 (80물약)"),
                         index=0)  # index=0은 첫 번째를 기본 선택 옵션으로
     if promotion_cost_input == "0개 (5물약)":
@@ -888,7 +888,11 @@ elif option == "옵션 물약 기댓값 계산":
     
     st.text(" ")
     if sum_of_option == 0:
-        st.write("옵션을 선택해주세요.")
+        st.header("옵션을 선택해주세요.")
+    elif (roulette_number - locked_roulette) == 0:
+        st.header("우파루의 모든 옵션이 잠금 설정 되었습니다.")
+    elif (roulette_number - locked_roulette) < 0:
+        st.header("우파루가 가진 옵션 개수보다 많은 옵션이 잠금 설정 되었습니다.")
     else:
         cost_expectation = (promotion_cost / (roulette_number - locked_roulette) * 
                             (100 / promotion_level_data) * (100 / sum_of_option))
@@ -896,6 +900,7 @@ elif option == "옵션 물약 기댓값 계산":
         st.header(f"기댓값 : {formatted_expectation}")
     
     st.text(" ")
+    st.text("################################")
     st.write("--- 승급 필요 물약 ---")
     st.text("0성 -> 1성:    100")
     st.text("1성 -> 2성:  1,000")
