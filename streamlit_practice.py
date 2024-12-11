@@ -128,6 +128,7 @@ if option == "가상 크로스":
                     found = False
                     prev_left = None
                     prev_right = None
+                    prev_rate = None
 
                     results = []
 
@@ -143,6 +144,10 @@ if option == "가상 크로스":
                             prev_right = right
                         else:
                             right = prev_right
+                        if rate != "":
+                            prev_rate = rate
+                        else:
+                            rate = prev_rate
 
                         # left와 right가 일치하는지 확인
                         if left == left_sno and right == right_sno:
