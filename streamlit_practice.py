@@ -23,8 +23,8 @@ import pandas as pd
 
 st.cache_data.clear()
 
-st.write("안내사항: 플로리 행운업 업데이트")
-st.write("Update: 2024-12-07")
+st.write("안내사항: 쿤지 업데이트")
+st.write("Update: 2024-12-11")
 st.write("Made by 시드드#0001")
 st.write("Thanks to kjeok00, replica, yskunn")
 
