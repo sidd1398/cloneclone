@@ -23,7 +23,7 @@ import pandas as pd
 
 st.cache_data.clear()
 
-st.write("안내사항: 쿤지 업데이트")
+st.write("안내사항: 쿤지 업데이트 (조합찾기(다중)모드를 추가하기 위해 데이터베이스를 더 압축했더니, 가상크로스와 조합찾기(단일) 모드에서 파일 읽기에 실패하는 경우가 발생합니다. 점심시간 동안 해결해볼게요.)")
 st.write("Update: 2024-12-11")
 st.write("Made by 시드드#0001")
 st.write("Thanks to kjeok00, replica, yskunn")
