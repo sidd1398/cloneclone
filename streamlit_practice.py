@@ -23,8 +23,8 @@ import pandas as pd
 
 st.cache_data.clear()
 
-st.write("안내사항: 브릴 업데이트 (브릴 행운업 이벤트는 12월 15일 18:00 ~ 24:00에 진행 예정이나, 가상크로스 업데이트는 진행하지 않을 예정입니다.)")
-st.write("Update: 2024-12-14 14:00")
+st.write("안내사항: 샤미, 자로 업데이트")
+st.write("Update: 2024-12-18")
 st.write("Made by 시드드#0001")
 st.write("Thanks to kjeok00, replica, yskunn")
 
