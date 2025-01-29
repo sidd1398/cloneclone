@@ -23,8 +23,8 @@ import pandas as pd
 
 st.cache_data.clear()
 
-st.write("안내사항: 제트용, 스켈, 바닛 2배 확률업")
-st.write("(까미 업데이트는 29일 저녁 혹은 30일 오전에 올리겠습니다 ㅜㅜ)")
+st.write("안내사항: 까미 업데이트")
+st.write("기준: 유저레벨 30 이상, 우파루 레벨 16 이상")
 st.write("Update: 2025-01-28")
 st.write("Made by 시드드#0001")
 st.write("Thanks to kjeok00, replica, yskunn")
