@@ -23,9 +23,9 @@ import pandas as pd
 
 st.cache_data.clear()
 
-st.write("안내사항: 플로디, 플로디네 업데이트")
+st.write("안내사항: 스윗럽, 팔레캣 업데이트")
 st.write("기준: 유저레벨 30 이상, 우파루 레벨 16 이상")
-st.write("Update: 2025-02-01")
+st.write("Update: 2025-02-05")
 st.write("Made by 시드드#0001")
 st.write("Thanks to kjeok00, replica, yskunn")
 
