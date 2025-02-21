@@ -24,7 +24,7 @@ import pandas as pd
 st.cache_data.clear()
 
 st.write("안내사항: 키니 업데이트")
-st.write("*** 2월 25일까지 업데이트 쉽니다! ***)
+st.write("*** 2월 25일까지 업데이트 쉽니다! ***")
 st.write("기준: 유저레벨 30 이상, 우파루 레벨 16 이상")
 st.write("Update: 2025-02-19")
 st.write("Made by 시드드#0001")
