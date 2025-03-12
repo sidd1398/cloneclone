@@ -23,12 +23,9 @@ import pandas as pd
 
 st.cache_data.clear()
 
-st.write("안내사항: 슈루루 확률업 업데이트")
-st.write("슈루루 확률업: 03.08. 09:00 ~ 03.09. 08:59")
-st.write("샤벨 확률업: 03.08 18:00 ~ 03.08. 23:59")
-st.write("샤벨의 확률업 수치는 따로 업데이트하지 않을 예정입니다")
+st.write("안내사항: 플래티, 햄스타, 비쥬냥, 러빗 업데이트")
 st.write("기준: 유저레벨 30 이상, 우파루 레벨 16 이상")
-st.write("Update: 2025-03-05")
+st.write("Update: 2025-03-12")
 st.write("Made by 시드드#0001")
 st.write("Thanks to kjeok00, replica, yskunn")
 
