@@ -23,9 +23,9 @@ import pandas as pd
 
 st.cache_data.clear()
 
-st.write("안내사항: 플래티, 햄스타, 비쥬냥, 러빗 업데이트")
+st.write("안내사항: 하티, 솜비 업데이트")
 st.write("기준: 유저레벨 30 이상, 우파루 레벨 16 이상")
-st.write("Update: 2025-03-12")
+st.write("Update: 2025-03-19")
 st.write("Made by 시드드#0001")
 st.write("Thanks to kjeok00, replica, yskunn")
 
