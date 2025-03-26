@@ -23,9 +23,9 @@ import pandas as pd
 
 st.cache_data.clear()
 
-st.write("안내사항: 러빗, 비쥬냥 확률업 이벤트")
+st.write("안내사항: 3월 26일 업데이트")
 st.write("기준: 유저레벨 30 이상, 우파루 레벨 16 이상")
-st.write("Update: 2025-03-22")
+st.write("Update: 2025-03-26")
 st.write("Made by 시드드#0001")
 st.write("Thanks to kjeok00, replica, yskunn")
 
