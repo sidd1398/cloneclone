@@ -23,7 +23,7 @@ import pandas as pd
 
 st.cache_data.clear()
 
-st.write("안내사항: 마이티 복귀 업데이트")
+st.write("안내사항: 2025-05-21: 기술적인 문제로 당분간 업데이트를 쉽니다 ㅜㅜ")
 st.write("기준: 유저레벨 30 이상, 우파루 레벨 16 이상")
 st.write("Update: 2025-05-10")
 st.write("Made by 시드드#0001")
