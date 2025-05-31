@@ -20,12 +20,15 @@
 import streamlit as st
 import csv
 import pandas as pd
+import glob
 
 st.cache_data.clear()
 
-st.write("안내사항: 2025-05-21: 기술적인 문제로 당분간 업데이트를 쉽니다 ㅜㅜ")
+st.write("당분간 빠른 업데이트가 어려워졌습니다 ㅜㅜ")
+st.write(" ")
+st.write("안내사항: 햄찌볼 업데이트")
 st.write("기준: 유저레벨 30 이상, 우파루 레벨 16 이상")
-st.write("Update: 2025-05-10")
+st.write("Update: 2025-05-31")
 st.write("Made by 시드드#0001")
 st.write("Thanks to kjeok00, replica, yskunn")
 
@@ -75,15 +78,16 @@ if option == "가상 크로스":
     if st.button("버튼을 누르면 결과창이 출력됩니다."):
         # 옵션에 따라 파일 선택
         if cross_option == "일반크로스":
-            compressed_file = "wooparoo_all_data_compressed.csv"
+            # "wooparoo_all_data_compressed_part_*.csv" 형태의 모든 파일을 리스트로 가져옴
+            compressed_file = sorted(glob.glob("wooparoo_all_data_compressed_part_*.csv"))
             expected_file = "wooparoo_expected.csv"
             st.write("일반크로스")
         elif cross_option == "매직크로스 행운업":
-            compressed_file = "wooparoo_all_data_compressed_lucky.csv"
+            compressed_file = sorted(glob.glob("wooparoo_all_data_compressed_lucky_part_*.csv"))
             expected_file = "wooparoo_expected_lucky.csv"
             st.write("매직크로스 행운업")
         elif cross_option == "매크행업+이벤트":
-            compressed_file = "wooparoo_all_data_compressed_event.csv"
+            compressed_file = sorted(glob.glob("wooparoo_all_data_compressed_event_part_*.csv"))
             expected_file = "wooparoo_expected_event.csv"
             st.write("매크행업+이벤트")
         else:
@@ -278,15 +282,15 @@ elif option == "크로스 조합 찾기 (다중)":
     
     if st.button("버튼을 누르면 결과창이 출력됩니다."):
         if cross_option == "일반크로스":
-            compressed_file = "wooparoo_all_data_compressed.csv"
+            compressed_file = sorted(glob.glob("wooparoo_all_data_compressed_part_*.csv"))
             expected_file = "wooparoo_expected.csv"
             st.write("일반크로스")
         elif cross_option == "매직크로스 행운업":
-            compressed_file = "wooparoo_all_data_compressed_lucky.csv"
+            compressed_file = sorted(glob.glob("wooparoo_all_data_compressed_lucky_part_*.csv"))
             expected_file = "wooparoo_expected_lucky.csv"
             st.write("매직크로스 행운업")
         elif cross_option == "매크행업+이벤트":
-            compressed_file = "wooparoo_all_data_compressed_event.csv"
+            compressed_file = sorted(glob.glob("wooparoo_all_data_compressed_event_part_*.csv"))
             expected_file = "wooparoo_expected_event.csv"
             st.write("매크행업+이벤트")
         else:
