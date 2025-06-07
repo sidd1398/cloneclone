@@ -85,18 +85,19 @@ if option == "가상 크로스":
         if cross_option == "일반크로스":
             # "wooparoo_all_data_compressed_part_*.csv" 형태의 모든 파일을 리스트로 가져옴
             #compressed_file = sorted(glob.glob("wooparoo_all_data_compressed_part_*.csv"))
-            compressed_file_1 = "wooparoo_all_data_compressed_part_1.csv"
-            compressed_file_2 = "wooparoo_all_data_compressed_part_2.csv"
+            #compressed_file_1 = "wooparoo_all_data_compressed_part_1.csv"
+            #compressed_file_2 = "wooparoo_all_data_compressed_part_2.csv"
+            compressed_file = "wooparoo_all_data_compressed_part_1.csv"
             expected_file = "wooparoo_expected.csv"
             st.write("일반크로스")
         elif cross_option == "매직크로스 행운업":
-            compressed_file_1 = "wooparoo_all_data_compressed_lucky_part_1.csv"
-            compressed_file_2 = "wooparoo_all_data_compressed_lucky_part_2.csv"
+            #compressed_file_1 = "wooparoo_all_data_compressed_lucky_part_1.csv"
+            #compressed_file_2 = "wooparoo_all_data_compressed_lucky_part_2.csv"
             expected_file = "wooparoo_expected_lucky.csv"
             st.write("매직크로스 행운업")
         elif cross_option == "매크행업+이벤트":
-            compressed_file_1 = "wooparoo_all_data_compressed_event_part_1.csv"
-            compressed_file_2 = "wooparoo_all_data_compressed_event_part_2.csv"
+            #compressed_file_1 = "wooparoo_all_data_compressed_event_part_1.csv"
+            #compressed_file_2 = "wooparoo_all_data_compressed_event_part_2.csv"
             expected_file = "wooparoo_expected_event.csv"
             st.write("매크행업+이벤트")
         else:
@@ -140,7 +141,7 @@ if option == "가상 크로스":
             prev_rate = None
             results = []
                 
-            for file_path in compressed_file_1 + compressed_file_2:
+            for file_path in compressed_file:
                 try:
                     with open(file_path, "r", encoding="utf-8") as sorted_file:
                         reader = csv.reader(sorted_file)
