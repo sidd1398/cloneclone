@@ -130,78 +130,69 @@ if option == "가상 크로스":
 
             # 선택된 파일에서 [left, right]와 일치하는 [result, rate] 찾기
             try:
-                with open(compressed_file, "r", encoding="utf-8") as sorted_file:
-                    reader = csv.reader(sorted_file)
-                    next(reader)  # 헤더 건너뛰기
+                found = False
+                prev_left = None
+                prev_right = None
+                prev_rate = None
+                results = []
 
-                    found = False
-                    prev_left = None
-                    prev_right = None
-                    prev_rate = None
+                for file_path in compressed_file:
+                    with open(file_path, "r", encoding="utf-8") as sorted_file:
+                        reader = csv.reader(sorted_file)
+                        next(reader)  # 헤더 건너뛰기
 
-                    results = []
+                        for row in reader:
+                            left, right, result, rate = row
 
-                    for row in reader:
-                        left, right, result, rate = row
-
-                        # 이전 값을 사용하여 빈 값을 채움 (compressed 버전 파일이라 필요)
-                        if left != "":
-                            prev_left = left
-                        else:
-                            left = prev_left
-                        if right != "":
-                            prev_right = right
-                        else:
-                            right = prev_right
-                        if rate != "":
-                            prev_rate = rate
-                        else:
-                            rate = prev_rate
-
-                        # left와 right가 일치하는지 확인
-                        if left == left_sno and right == right_sno:
-                            # 우파루 구분(prop)에 따라 보여줄지 말지 결정
-                            result_prop = sno_to_prop_dict.get(result, "Unknown")
-                            show_result = False
-                            if result_prop == '9':
-                                if checkbox1 == True:
-                                    show_result = True
-                            elif result_prop == '6' or result_prop == '7':
-                                if checkbox2 == True:
-                                    show_result = True
-                            elif result_prop == '3' or result_prop == '13':
-                                if checkbox3 == True:
-                                    show_result = True
-                            elif result_prop == '4':
-                                if checkbox4 == True:
-                                    show_result = True
-                            elif result_prop == '5':
-                                if checkbox3 == True or checkbox4 == True:
-                                    show_result = True
+                            # 빈 값 처리 (압축 파일 특성)
+                            if left != "":
+                                prev_left = left
                             else:
-                                if checkbox5 == True:
+                                left = prev_left
+                            if right != "":
+                                prev_right = right
+                            else:
+                                right = prev_right
+                            if rate != "":
+                                prev_rate = rate
+                            else:
+                                rate = prev_rate
+
+                            if left == left_sno and right == right_sno:
+                                result_prop = sno_to_prop_dict.get(result, "Unknown")
+                                show_result = False
+                                if result_prop == '9' and checkbox1:
+                                    show_result = True
+                                elif result_prop in ('6', '7') and checkbox2:
+                                    show_result = True
+                                elif result_prop in ('3', '13') and checkbox3:
+                                    show_result = True
+                                elif result_prop == '4' and checkbox4:
+                                    show_result = True
+                                elif result_prop == '5' and (checkbox3 or checkbox4):
+                                    show_result = True
+                                elif result_prop not in ('3', '4', '5', '6', '7', '9', '13') and checkbox5:
                                     show_result = True
 
-                            # 보여줄 데이터라면 표에 추가하기
-                            if show_result:
-                                result_name = sno_to_name_dict.get(result, "Unknown")
-                                rate = f"{float(rate):.2f}"  # 소수점 둘째자리까지 확률 표기
-                                result_time = round(float(sno_to_time_dict.get(result, "Unknown")), 2)
-                                results.append([result_name, rate, result_time])
-                                found = True
+                                if show_result:
+                                    result_name = sno_to_name_dict.get(result, "Unknown")
+                                    rate_fmt = f"{float(rate):.2f}"
+                                    result_time = round(float(sno_to_time_dict.get(result, "Unknown")), 2)
+                                    results.append([result_name, rate_fmt, result_time])
+                                    found = True
 
-                    if found:
-                        if sort_option == '소환시간':
-                            # result_time을 기준으로 내림차순 정렬
-                            results = sorted(results, key=lambda x: x[2], reverse=True)
-                        df = pd.DataFrame(results, columns=["결과 우파루", "확률 [%]", "소환시간 [시간]"]) 
-                        df.index = df.index + 1  # 행 번호를 1부터 시작하도록 설정
-                        # 표 출력 (float_format 적용 -> 소수점 둘째자리까지만 표기되도록)
-                        st.table(df.style.format({"소환시간 [시간]": "{:.2f}"}))
-                    else:
-                        st.error(f"파일에 우파루 조합이 존재하지 않습니다.                                 {left_name} (left), {right_name} (right).")
+                if found:
+                    if sort_option == '소환시간':
+                        results = sorted(results, key=lambda x: x[2], reverse=True)
+                    df = pd.DataFrame(results, columns=["결과 우파루", "확률 [%]", "소환시간 [시간]"])
+                    df.index = df.index + 1
+                    st.table(df.style.format({"소환시간 [시간]": "{:.2f}"}))
+                else:
+                    st.error(f"파일에 우파루 조합이 존재하지 않습니다: {left_name} (left), {right_name} (right).")
+
             except Exception as e:
                 st.error(f"compressed 파일 로드 실패: {e}")
+
 ###############################################################################################
 ###############################################################################################
 ###############################################################################################
