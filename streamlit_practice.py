@@ -319,7 +319,7 @@ elif option == "크로스 조합 찾기 (다중)":
         
         # compressed_file을 열어서 한 행씩 검증
         for file_path in compressed_file:
-            with open(compressed_file, "r", encoding="utf-8") as file:
+            with open(file_path, "r", encoding="utf-8") as file:
                 reader = csv.reader(file)
                 next(reader)  # 헤더 건너뛰기
 
