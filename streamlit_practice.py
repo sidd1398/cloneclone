@@ -59,7 +59,7 @@ st.title("우파루 가상 크로스")
 #)
 option = st.selectbox(
     "모드 선택",
-    ["가상 크로스", "크로스 조합 찾기 (단일)", "우파루 리스트",
+    ["가상 크로스", "크로스 조합 찾기 (단일)", "크로스 조합 찾기 (다중)", "우파루 리스트",
      "참고 사항", "필요 먹이량 메모", "농장 생산량 메모", "옵션 물약 기댓값 계산"]
 )
 
@@ -277,15 +277,15 @@ elif option == "크로스 조합 찾기 (다중)":
     
     if st.button("버튼을 누르면 결과창이 출력됩니다."):
         if cross_option == "일반크로스":
-            compressed_file = sorted(glob.glob("wooparoo_all_data_compressed_part_*.csv"))
+            compressed_file = ["wooparoo_all_data_compressed_part_1.csv", "wooparoo_all_data_compressed_part_2.csv"]
             expected_file = "wooparoo_expected.csv"
             st.write("일반크로스")
         elif cross_option == "매직크로스 행운업":
-            compressed_file = sorted(glob.glob("wooparoo_all_data_compressed_lucky_part_*.csv"))
+            compressed_file = ["wooparoo_all_data_compressed_lucky_part_1.csv", "wooparoo_all_data_compressed_lucky_part_2.csv"]
             expected_file = "wooparoo_expected_lucky.csv"
             st.write("매직크로스 행운업")
         elif cross_option == "매크행업+이벤트":
-            compressed_file = sorted(glob.glob("wooparoo_all_data_compressed_event_part_*.csv"))
+            compressed_file = ["wooparoo_all_data_compressed_event_part_1.csv", "wooparoo_all_data_compressed_event_part_2.csv"]
             expected_file = "wooparoo_expected_event.csv"
             st.write("매크행업+이벤트")
         else:
@@ -310,61 +310,64 @@ elif option == "크로스 조합 찾기 (다중)":
         st.write(name_list)
         st.write("선택된 우파루가 모두 나올 수 있는 조합 검색 중...")
         
-        # 결과를 저장할 배열
         # 최종적으로 [left, right, rate_sum, wooparoo_get_time] 형식
+        # 결과를 저장할 배열
         all_pairs = []
+
+        # 이전 행의 데이터를 저장할 변수 (compressed 파일의 빈 칸을 처리하기 위함)
+        prev_left, prev_right, prev_rate = None, None, None
+        
         # compressed_file을 열어서 한 행씩 검증
-        with open(compressed_file, "r", encoding="utf-8") as file:
-            reader = csv.reader(file)
-            next(reader)  # 헤더 건너뛰기
+        for file_path in compressed_file:
+            with open(compressed_file, "r", encoding="utf-8") as file:
+                reader = csv.reader(file)
+                next(reader)  # 헤더 건너뛰기
 
-            # 이전 행의 데이터를 저장할 변수 (compressed 파일의 빈 칸을 처리하기 위함)
-            prev_left, prev_right, prev_rate = None, None, None
-            # 동일한 [left, right] 조합에서 splitted_sno에 속하는 모든 rate의 합
-            rate_sum = 0
-            # 동일한 [left, right] 조합의 result 목록은 splitted_sno에 속한 요소를 몇 개나 포함하고 있는지
-            result_number = 0
-            # 원하던 [left, right] 조합이면 True가 되고, 이번 [left, right] 조합 데이터를 빠르게 넘기기 위한 목적
-            passing = False
+                # 동일한 [left, right] 조합에서 splitted_sno에 속하는 모든 rate의 합
+                rate_sum = 0
+                # 동일한 [left, right] 조합의 result 목록은 splitted_sno에 속한 요소를 몇 개나 포함하고 있는지
+                result_number = 0
+                # 원하던 [left, right] 조합이면 True가 되고, 이번 [left, right] 조합 데이터를 빠르게 넘기기 위한 목적
+                passing = False
 
-            # 파일의 각 행을 처리
-            for row in reader:
-                # 읽어들인 행에 left, right가 둘 다 빈 칸이면 이전과 동일한 [left, right] 조합임
-                is_empty_data = True
-                # 빈 칸 있으면 이전 행 참조해서 메꾸기
-                if row[0]:
-                    left = int(row[0])
-                    is_empty_data = False
-                else:
-                    left = prev_left
-                if row[1]:
-                    right = int(row[1])
-                    is_empty_data = False
-                else:
-                    right = prev_right
-                result = int(row[2])
-                rate   = float(row[3]) if row[3] else prev_rate
-                
-                prev_left, prev_right, prev_rate = left, right, rate
-                
-                # 새로운 [left, right] 조합을 읽기 시작하면 매개변수 초기화
-                if is_empty_data == False:
-                    rate_sum = 0
-                    result_number = 0
-                    passing = False
-                
-                # splitted_sno는 str 타입의 배열이므로, str() 필수!!
-                if str(result) in splitted_sno:
-                    rate_sum += rate
-                    result_number += 1
-                
-                # 이번 [left, right] 조합이 splitted_sno를 모두 뽑을 수 있는 조합이라면, 이 조합을 선택
-                if result_number == len(splitted_sno) and passing == False:
-                    all_pairs.append([left, right, round(rate_sum, 2)])
-                    passing = True
-                if result_number > len(splitted_sno):
-                    st.write(f"{left}와 {right} 조합에서 오버플로우 발생")
-                    st.stop()
+                # 파일의 각 행을 처리
+                for row in reader:
+                    # 읽어들인 행에 left, right가 둘 다 빈 칸이면 이전과 동일한 [left, right] 조합임
+                    is_empty_data = True
+                    # 빈 칸 있으면 이전 행 참조해서 메꾸기
+                    if row[0]:
+                        left = int(row[0])
+                        is_empty_data = False
+                    else:
+                        left = prev_left
+                    if row[1]:
+                        right = int(row[1])
+                        is_empty_data = False
+                    else:
+                        right = prev_right
+                    result = int(row[2])
+                    rate   = float(row[3]) if row[3] else prev_rate
+
+                    prev_left, prev_right, prev_rate = left, right, rate
+
+                    # 새로운 [left, right] 조합을 읽기 시작하면 매개변수 초기화
+                    if is_empty_data == False:
+                        rate_sum = 0
+                        result_number = 0
+                        passing = False
+
+                    # splitted_sno는 str 타입의 배열이므로, str() 필수!!
+                    if str(result) in splitted_sno:
+                        rate_sum += rate
+                        result_number += 1
+
+                    # 이번 [left, right] 조합이 splitted_sno를 모두 뽑을 수 있는 조합이라면, 이 조합을 선택
+                    if result_number == len(splitted_sno) and passing == False:
+                        all_pairs.append([left, right, round(rate_sum, 2)])
+                        passing = True
+                    if result_number > len(splitted_sno):
+                        st.write(f"{left}와 {right} 조합에서 오버플로우 발생")
+                        st.stop()
         
         length_of_all_pairs = len(all_pairs)
         if length_of_all_pairs == 0:
