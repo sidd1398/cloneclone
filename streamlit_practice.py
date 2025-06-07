@@ -87,11 +87,11 @@ if option == "가상 크로스":
             expected_file = "wooparoo_expected.csv"
             st.write("일반크로스")
         elif cross_option == "매직크로스 행운업":
-            compressed_file = "wooparoo_all_data_compressed_lucky.csv"
+            compressed_file = ["wooparoo_all_data_compressed_lucky_part_1.csv", "wooparoo_all_data_compressed_lucky_part_2.csv"]
             expected_file = "wooparoo_expected_lucky.csv"
             st.write("매직크로스 행운업")
         elif cross_option == "매크행업+이벤트":
-            compressed_file = "wooparoo_all_data_compressed_event.csv"
+            compressed_file = ["wooparoo_all_data_compressed_event_part_1.csv", "wooparoo_all_data_compressed_event_part_2.csv"]
             expected_file = "wooparoo_expected_event.csv"
             st.write("매크행업+이벤트")
         else:
