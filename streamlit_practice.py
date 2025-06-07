@@ -83,7 +83,7 @@ if option == "가상 크로스":
     if st.button("버튼을 누르면 결과창이 출력됩니다."):
         # 옵션에 따라 파일 선택
         if cross_option == "일반크로스":
-            compressed_file = "wooparoo_all_data_compressed_part_1.csv"
+            compressed_file = ["wooparoo_all_data_compressed_part_1.csv", "wooparoo_all_data_compressed_part_2.csv"]
             expected_file = "wooparoo_expected.csv"
             st.write("일반크로스")
         elif cross_option == "매직크로스 행운업":
