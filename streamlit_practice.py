@@ -26,11 +26,11 @@ st.cache_data.clear()
 
 #st.write("당분간 가상크로스, 다중조합찾기 모드를 중단합니다 ㅜㅜ")
 #st.write(" ")
-#st.write("안내사항: 07 / 30 업데이트")
-#st.write("기준: 유저레벨 30 이상, 우파루 레벨 16 이상")
-#st.write("Update: 2025-07-30")
-#st.write("Made by 시드드#0001")
-#st.write("Thanks to kjeok00, replica, yskunn")
+st.write("안내사항: 요호, 티파니 업데이트")
+st.write("기준: 유저레벨 30 이상, 우파루 레벨 16 이상")
+st.write("Update: 2025-08-09")
+st.write("Made by 시드드#0001")
+st.write("Thanks to kjeok00, replica, yskunn")
 
 # wooparoo_list_data.csv 파일을 읽어 sno, name, time, prop 매핑 생성
 name_to_sno_dict = {}
