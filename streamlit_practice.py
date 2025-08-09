@@ -18,12 +18,6 @@ st.write("Update: 2025-08-09")
 st.write("Made by 시드드#0001")
 st.write("Thanks to kjeok00, replica, yskunn")
 
-st.text("안내사항: 요호, 티파니 업데이트")
-st.text("기준: 유저레벨 30 이상, 우파루 레벨 16 이상")
-st.text("Update: 2025-08-09")
-st.text("Made by 시드드#0001")
-st.text("Thanks to kjeok00, replica, yskunn")
-
 st.title("우파루 가상 크로스")
 
 # wooparoo_list_data.csv 파일을 읽어 sno, name, time, prop 매핑 생성
