@@ -55,6 +55,8 @@ if option == "가상 크로스":
     cross_option = st.radio("크로스 옵션",
                         ("일반크로스", "매직크로스 행운업", "매크행업+이벤트"),
                         index=0)  # index=0은 첫 번째를 기본 선택 옵션으로
+
+    st.write("Update: 2025-08-09")
     
     sort_option = st.radio('정렬 기준', ('확률', '소환시간'), index=0)
     left_name = st.text_input("왼쪽 우파루:")
