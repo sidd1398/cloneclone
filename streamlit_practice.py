@@ -4,19 +4,6 @@
 # In[1]:
 
 
-'''
-메모할 만한 팁
-1. st.table은 그냥 표로 보여준다.
-  st.write으로 pandas 데이터(열이름 포함)를 출력하면 사용자가 열이름을 클릭하여 정렬할 수 있는 표로 출력된다.
-  st.dataframe도 마찬가지
-2. 데이터를 pandas로 읽어들일 때 index는 필요없으면 index_col은 0로 두어 표시되지 않게 하자.
-  data = pd.read_csv("wooparoo_list_data.csv", index_col=0)
-3. 글자 크기: 기본 텍스트 st.write, st.text는 16px
-              (st.write 글씨체가 더 둥글둥글, st.text는 공백 여러 칸 유지 가능)
-              st.title은 36px, st.header는 24px, st.subheader는 20px
-4. csv 파일의 데이터 읽을 때는 str 타입. 자꾸 int, float으로 생각해서 실수함.
-'''
-
 import streamlit as st
 import csv
 import pandas as pd
@@ -24,8 +11,6 @@ import glob
 
 st.cache_data.clear()
 
-#st.write("당분간 가상크로스, 다중조합찾기 모드를 중단합니다 ㅜㅜ")
-#st.write(" ")
 st.write("안내사항: 요호, 티파니 업데이트")
 st.write("기준: 유저레벨 30 이상, 우파루 레벨 16 이상")
 st.write("Update: 2025-08-09")
@@ -927,6 +912,20 @@ elif option == "옵션 물약 기댓값 계산":
     st.write("D등급: 20%, D등급 이상: 35%")
     st.write("E등급: 30%, E등급 이상: 65%")
     st.write("F등급: 35%, F등급 이상: 100%")
+    
+    
+'''
+메모할 만한 팁
+1. st.table은 그냥 표로 보여준다.
+  st.write으로 pandas 데이터(열이름 포함)를 출력하면 사용자가 열이름을 클릭하여 정렬할 수 있는 표로 출력된다.
+  st.dataframe도 마찬가지
+2. 데이터를 pandas로 읽어들일 때 index는 필요없으면 index_col은 0로 두어 표시되지 않게 하자.
+  data = pd.read_csv("wooparoo_list_data.csv", index_col=0)
+3. 글자 크기: 기본 텍스트 st.write, st.text는 16px
+              (st.write 글씨체가 더 둥글둥글, st.text는 공백 여러 칸 유지 가능)
+              st.title은 36px, st.header는 24px, st.subheader는 20px
+4. csv 파일의 데이터 읽을 때는 str 타입. 자꾸 int, float으로 생각해서 실수함.
+'''
 
 
 # In[ ]:
