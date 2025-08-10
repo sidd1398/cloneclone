@@ -3,6 +3,7 @@
 
 # In[1]:
 
+
 '''
 메모할 만한 팁
 1. st.table은 그냥 표로 보여준다.
@@ -26,7 +27,7 @@ st.cache_data.clear()
 # Streamlit 사용자 인터페이스
 st.write("안내사항: 요호, 티파니 업데이트")
 st.write("기준: 유저레벨 30 이상, 우파루 레벨 16 이상")
-st.write("Update: 2025-08-09")
+st.write("Update: 2025-08-10")
 st.write("Made by 시드드#0001")
 st.write("Thanks to kjeok00, replica, yskunn")
 
@@ -924,6 +925,8 @@ elif option == "옵션 물약 기댓값 계산":
     st.write("D등급: 20%, D등급 이상: 35%")
     st.write("E등급: 30%, E등급 이상: 65%")
     st.write("F등급: 35%, F등급 이상: 100%")
+    
+    
 
 
 # In[ ]:
