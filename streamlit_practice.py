@@ -25,9 +25,9 @@ import glob
 st.cache_data.clear()
 
 # Streamlit 사용자 인터페이스
-st.write("안내사항: 로롤리 확률업(매크행업+이벤트 옵션 선택시에만 업데이트 적용)")
+st.write("안내사항: 강철 업데이트 (일반크로스만 업데이트 수행)")
 st.write("기준: 유저레벨 30 이상, 우파루 레벨 16 이상")
-st.write("Update: 2025-09-28")
+st.write("Update: 2025-10-02")
 st.write("Made by 시드드#0001")
 st.write("Thanks to kjeok00, replica, yskunn")
 
@@ -459,7 +459,7 @@ elif option == "우파루 리스트":
     # attrs의 숫자를 대응하는 글자 속성으로 변환
     attr_mapping = {1: "숲", 2: "땅", 3: "불", 4: "얼음", 5: "천둥", 6: "물", 7: "바람", 
                     8: "빛", 9: "어둠", 10: "황금", 11: "보석", 12: "매직", 
-                    13: "구름", 14: "무지개", 15: "슈거"}
+                    13: "구름", 14: "무지개", 15: "슈거", 26: "강철"}
     data['formatted_attrs'] = data['attrs'].apply(lambda x: [attr_mapping[i] for i in eval(x)])
 
     # 필요한 데이터만 선택
@@ -484,6 +484,7 @@ elif option == "우파루 리스트":
         checkbox_filter7 = st.checkbox("바람", value=False)
         checkbox_filter12 = st.checkbox("매직", value=False)
         checkbox_filter13 = st.checkbox("슈거", value=False)
+        checkbox_filter16 = st.checkbox("강철", value=False)
         checkbox_filter8 = st.checkbox("빛", value=False)
         checkbox_filter9 = st.checkbox("어둠", value=False)
         checkbox_filter10 = st.checkbox("황금", value=False)
@@ -520,6 +521,8 @@ elif option == "우파루 리스트":
             filters.append("구름")
         if checkbox_filter15:
             filters.append("무지개")
+        if checkbox_filter16:
+            filters.append("강철")
 
         # 필터 적용
         if filters:
