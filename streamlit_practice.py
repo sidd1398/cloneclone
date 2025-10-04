@@ -25,9 +25,9 @@ import glob
 st.cache_data.clear()
 
 # Streamlit 사용자 인터페이스
-st.write("안내사항: 강철 업데이트 (일반크로스만 업데이트 수행)")
+st.write("안내사항: 앵두 확률업")
 st.write("기준: 유저레벨 30 이상, 우파루 레벨 16 이상")
-st.write("Update: 2025-10-02")
+st.write("Update: 2025-10-04")
 st.write("Made by 시드드#0001")
 st.write("Thanks to kjeok00, replica, yskunn")
 
